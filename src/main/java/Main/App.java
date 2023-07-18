@@ -53,7 +53,7 @@ public class App {
 		Abbonamenti abbonamento1 = new Abbonamenti(Periodicita.SETTIMANALE, rivenditore1, tessera1);
 		Abbonamenti abbonamento2 = new Abbonamenti(Periodicita.MENSILE, rivenditore1, tessera1);
 
-		Biglietti biglietto1 = new Biglietti(rivenditore1, utente2);
+		Biglietti biglietto1 = new Biglietti(rivenditore1);
 
 		Distributore distributore1 = new Distributore(StatoDistributore.ATTIVO);
 		Distributore distributore2 = new Distributore(StatoDistributore.DISATTIVO);

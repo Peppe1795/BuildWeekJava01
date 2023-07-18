@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,8 @@ import lombok.Setter;
 
 public class ParcoMezzi {
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name = "my_sequence3", sequenceName = "my_sequence3", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence3")
 	@Column(name = "Id")
 	private int id;
 	@Enumerated(EnumType.STRING)
@@ -31,8 +34,8 @@ public class ParcoMezzi {
 	private StatoMezzi statoMezzi;
 	private int capienza;
 	@OneToOne(mappedBy = "parcoMezzi")
-	private Tratta tratta;
-	@OneToMany
+	private Tratta tratta; //forse diventa una lista
+	@OneToMany(mappedBy = "puntoVidimazione")
 	private List<Biglietti> biglietti;
 
 	public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, int capienza, Tratta tratta) {

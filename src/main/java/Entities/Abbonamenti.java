@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class Abbonamenti {
 	private LocalDate dataScadenza;
 	@ManyToOne
 	private Rivenditore puntoVendita;
-	@ManyToOne
+	@OneToOne
 	private Tessera tessera;
 
 	public Abbonamenti(Periodicita periodicita, Rivenditore puntoVendita, Tessera tessera) {

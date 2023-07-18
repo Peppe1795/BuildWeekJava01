@@ -33,9 +33,8 @@ public class Biglietti {
 	@ManyToOne
 	private ParcoMezzi puntoVidimazione;
 
-	public Biglietti(Rivenditore puntoVendita, Utente utente) {
+	public Biglietti(Rivenditore puntoVendita) {
 		this.puntoVendita = puntoVendita;
-		this.utente = utente;
 	}
 
 }
