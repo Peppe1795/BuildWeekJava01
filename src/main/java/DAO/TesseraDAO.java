@@ -3,20 +3,20 @@ package DAO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import Entities.PuntoVendita;
+import Entities.Tessera;
 
-public class VenditaDAO {
+public class TesseraDAO {
 	private final EntityManager em;
 
-	public VenditaDAO(EntityManager em) {
+	public TesseraDAO(EntityManager em) {
 		this.em = em;
 	}
 
-	public void save(PuntoVendita vendita) {
+	public void save(Tessera tessera) {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 
-		em.persist(vendita);
+		em.persist(tessera);
 
 		t.commit();
 

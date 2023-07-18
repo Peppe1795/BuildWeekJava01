@@ -1,15 +1,11 @@
 package Entities;
-
-<<<<<<< HEAD
-public class Abbonamenti {
-
-=======
 import java.time.LocalDate;
 
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Entity
 @Table(name = "abbonamenti")
@@ -25,8 +21,8 @@ public class Abbonamenti {
 	private Periodicita periodicita;
 	private LocalDate dataEmissione = LocalDate.now();
 	private LocalDate dataScadenza;
-	//@ManyToOne
-	//private PuntoVendita puntoVendita;
+	@ManyToOne
+	private PuntoVendita puntoVendita;
 	@ManyToOne
 	private Tessera tessera;
 	
@@ -34,5 +30,5 @@ public class Abbonamenti {
 		super();
 		this.periodicita = periodicita;
 	}
->>>>>>> Davide
+
 }
