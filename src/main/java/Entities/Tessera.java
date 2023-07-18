@@ -25,23 +25,21 @@ import lombok.Setter;
 public class Tessera {
 
 	@Id
-    @SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence")
-    private Long id;
+	@SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence")
+	private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "utente_id")
-    private Utente utente;
-    @OneToMany(mappedBy = "tessera")
-    private List<Abbonamenti> abbonamenti;
-    private LocalDate dataEmissione;
-    private LocalDate dataScadenza;
+	@OneToOne
+	@JoinColumn(name = "utente_id")
+	private Utente utente;
+	@OneToMany(mappedBy = "tessera")
+	private List<Abbonamenti> abbonamenti;
+	private LocalDate dataEmissione = LocalDate.now();
+	private LocalDate dataScadenza = dataEmissione.plusYears(1);
 
-    public Tessera(Utente utente, LocalDate dataEmissione) {
-        this.utente = utente;
-        this.dataEmissione = dataEmissione;
-        this.dataScadenza = dataEmissione.plusYears(1);
-    }
+	public Tessera(Utente utente) {
+		this.utente = utente;
+	}
 
 	@Override
 	public String toString() {
