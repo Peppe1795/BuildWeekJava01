@@ -1,0 +1,26 @@
+package DAO;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import Entities.ParcoMezzi;
+
+public class ParcoMezziDAO {
+	private final EntityManager em;
+
+	public ParcoMezziDAO(EntityManager em) {
+		this.em = em;
+	}
+
+	public void save(ParcoMezzi parcoMezzi) {
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+
+		em.persist(parcoMezzi);
+
+		t.commit();
+
+		System.out.println("Elemento salvato correttamente");
+
+	}
+}
