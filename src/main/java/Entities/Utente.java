@@ -28,7 +28,7 @@ public class Utente {
 	@OneToOne(mappedBy = "utente")
 	private Tessera tessera;
 	@OneToMany(mappedBy = "utente")
-	List<Biglietti> biglietti;
+	private List<Biglietti> biglietti;
 	private String nome;
 	private String cognome;
 	private LocalDate dataDiNascita;

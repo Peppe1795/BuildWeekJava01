@@ -1,8 +1,7 @@
 package Entities;
 
 public enum StatoDistributore {
-	
-	ATTIVO,
-	DISATTIVO,
+
+	ATTIVO, DISATTIVO,
 
 }

@@ -13,15 +13,4 @@ import lombok.Setter;
 
 public class Rivenditore extends PuntoVendita {
 
-	public Rivenditore(Biglietti biglietti, Abbonamenti abbonamenti) {
-		super( biglietti, abbonamenti);
-	
-	}
-
-	
-	
-	
-	
-	
-
 }
