@@ -13,11 +13,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class Distributore extends Vendita{
+public class Distributore extends PuntoVendita{
 	
 	@Enumerated(EnumType.STRING)
     private StatoDistributore stato;
-	private 
+	
 	
 	public Distributore(Biglietti biglietti, Abbonamenti abbonamenti, StatoDistributore stato) {
 		super( biglietti, abbonamenti);
