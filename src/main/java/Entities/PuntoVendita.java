@@ -35,7 +35,6 @@ public class PuntoVendita {
 	static int numeroBiglietti;
 	static int numeroAbbonamenti;
 	private LocalDate dataEmissione;
-	private LocalDate dataVidimazione;
 
 	public PuntoVendita(Biglietti biglietti, Abbonamenti abbonamenti) {
 		super();
