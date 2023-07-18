@@ -1,5 +1,7 @@
 package Entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "tipo punto vendita")
 @Table(name = "Punti vendita")
 @NoArgsConstructor
-public class Vendita {
+public class PuntoVendita {
 
 	@Id
 	@SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", allocationSize = 1)
@@ -32,8 +34,10 @@ public class Vendita {
 	private Abbonamenti abbonamenti;
 	static int numeroBiglietti;
 	static int numeroAbbonamenti;
+	private LocalDate dataEmissione;
+	private LocalDate dataVidimazione;
 
-	public Vendita(Biglietti biglietti, Abbonamenti abbonamenti) {
+	public PuntoVendita(Biglietti biglietti, Abbonamenti abbonamenti) {
 		super();
 		this.biglietti = biglietti;
 		this.abbonamenti = abbonamenti;
