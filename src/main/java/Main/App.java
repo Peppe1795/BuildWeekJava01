@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 
 import DAO.AbbonamentoDAO;
 import DAO.BigliettiDAO;
+import DAO.RivenditoreDAO;
 import DAO.TesseraDAO;
 import DAO.UtenteDAO;
 import Entities.Abbonamenti;
@@ -28,7 +29,7 @@ public class App {
 		TesseraDAO ts = new TesseraDAO(em);
 		AbbonamentoDAO ab = new AbbonamentoDAO(em);
 		BigliettiDAO bi = new BigliettiDAO(em);
-
+		RivenditoreDAO rb = new RivenditoreDAO(em);
 		Utente utente1 = new Utente("Giuseppe", "Petrucci", LocalDate.of(1995, 2, 17));
 		Utente utente2 = new Utente("Luca", "Iannive", LocalDate.of(1980, 9, 23));
 		Utente utente3 = new Utente("Ciccio", "Ciccio", LocalDate.of(1990, 2, 27));
@@ -37,7 +38,7 @@ public class App {
 		Tessera tessera1 = new Tessera(utente1);
 
 		Rivenditore rivenditore1 = new Rivenditore();
-
+		rb.save(rivenditore1);
 		Abbonamenti abbonamento1 = new Abbonamenti(Periodicita.SETTIMANALE, rivenditore1, tessera1);
 		Abbonamenti abbonamento2 = new Abbonamenti(Periodicita.MENSILE, rivenditore1, tessera1);
 
