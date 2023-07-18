@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Biglietto {
+public class Biglietti {
 	
 	@Id
 	@GeneratedValue

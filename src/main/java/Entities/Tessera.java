@@ -33,7 +33,7 @@ public class Tessera {
     @JoinColumn(name = "utente_id")
     private Utente utente;
     @OneToMany(mappedBy = "tessera")
-    private List<Abbonamento> abbonamenti;
+    private List<Abbonamenti> abbonamenti;
     private LocalDate dataEmissione;
     private LocalDate dataScadenza;
 

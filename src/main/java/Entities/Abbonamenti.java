@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Abbonamento {
+public class Abbonamenti {
 
 	@Id
 	@GeneratedValue
@@ -26,7 +26,7 @@ public class Abbonamento {
 	@ManyToOne
 	private Tessera tessera;
 	
-	public Abbonamento(Periodicita periodicita) {
+	public Abbonamenti(Periodicita periodicita) {
 		super();
 		this.periodicita = periodicita;
 	}
