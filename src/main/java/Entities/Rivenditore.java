@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class Rivenditore extends Vendita {
+public class Rivenditore extends PuntoVendita {
 
 	public Rivenditore(Biglietti biglietti, Abbonamenti abbonamenti) {
 		super( biglietti, abbonamenti);
