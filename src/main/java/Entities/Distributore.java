@@ -19,9 +19,7 @@ public class Distributore extends PuntoVendita{
     private StatoDistributore stato;
 	
 	
-	public Distributore(Biglietti biglietti, Abbonamenti abbonamenti, StatoDistributore stato) {
-		super( biglietti, abbonamenti);
-		
+	public Distributore(StatoDistributore stato) {
 		this.stato = stato;	
 	}
 
