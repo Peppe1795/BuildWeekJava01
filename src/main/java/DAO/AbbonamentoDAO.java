@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import Entities.Abbonamenti;
+import Entities.Biglietti;
 
 public class AbbonamentoDAO {
 	private final EntityManager em;
@@ -22,5 +23,9 @@ public class AbbonamentoDAO {
 
 		System.out.println("Elemento salvato correttamente");
 
+	}
+	
+	public Abbonamenti ricercaAbbonamentoDaId(Long id) {
+		return em.find(Abbonamenti.class, id);
 	}
 }

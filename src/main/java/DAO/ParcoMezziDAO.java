@@ -28,7 +28,7 @@ public class ParcoMezziDAO {
 	}
 	
 	public List<ParcoMezzi> visualizzaParcoMezzi() {
-	    return em.createQuery("SELECT * FROM parcomezzi", ParcoMezzi.class)    
+	    return em.createQuery("SELECT r FROM ParcoMezzi r", ParcoMezzi.class)    
 	            .getResultList();
 	}
 	public ParcoMezzi ricercaMezziDaId(Long id) {

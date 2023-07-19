@@ -34,8 +34,9 @@ public class Abbonamenti {
 	@OneToOne
 	private Tessera tessera;
 
-	public Abbonamenti(Periodicita periodicita, Rivenditore puntoVendita, Tessera tessera) {
+	public Abbonamenti(Periodicita periodicita,LocalDate dataScadenza ,Rivenditore puntoVendita, Tessera tessera) {
 		this.periodicita = periodicita;
+		this.dataScadenza = dataScadenza;
 		this.puntoVendita = puntoVendita;
 		this.tessera = tessera;
 	}
