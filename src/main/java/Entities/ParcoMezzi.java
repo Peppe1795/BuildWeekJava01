@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -28,6 +29,8 @@ public class ParcoMezzi {
 	@SequenceGenerator(name = "my_sequence3", sequenceName = "my_sequence3", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence3")
 	@Column(name = "Id")
+	@OneToOne (mappedBy = "id")
+	
 	private int id;
 	@Enumerated(EnumType.STRING)
 	private TipoMezzo tipoMezzo;
