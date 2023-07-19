@@ -68,38 +68,41 @@ public class App {
 		Utente utente = null;
 
 		while (utente == null) {
-		    System.out.println("Sei già registrato? (y/n)");
-		    String risposta = scanner.next();
+			System.out.println("Sei già registrato? (y/n)");
+			String risposta = scanner.next();
 
-		    if (risposta.equals("y")) {
-		        System.out.print("Inserisci il tuo ID: ");
-		        long id = Long.parseLong(scanner.next());
-		        Utente utenteEsistente = sd.ricercaUtenteDaId(id);
+			if (risposta.equals("y")) {
+				System.out.print("Inserisci il tuo ID: ");
+				long id = Long.parseLong(scanner.next());
+				Utente utenteEsistente = sd.ricercaUtenteDaId(id);
 
-		        if (utenteEsistente != null) {
-		            utente = utenteEsistente;
-		            System.out.println("Utente loggato");
-		        } else {
-		            System.out.println("ID non valido. Riprova.");
-		        }
-		    } else if (risposta.equals("n")) {
-		        System.out.print("Inserisci il nome dell'utente: ");
-		        String nomeUtente = scanner.next();
-		        System.out.print("Inserisci il cognome dell'utente: ");
-		        String cognomeUtente = scanner.next();
-		        System.out.print("Inserisci la data di nascita dell'utente (formato: anno-mese-giorno): ");
-		        String dataNascitaUtente = scanner.next();
+				if (utenteEsistente != null) {
+					utente = utenteEsistente;
+					System.out.println("Utente loggato");
+				} else {
+					System.out.println("ID non valido. Riprova.");
+				}
+			} else if (risposta.equals("n")) {
+				System.out.print("Inserisci il nome dell'utente: ");
+				String nomeUtente = scanner.next();
+				System.out.print("Inserisci il cognome dell'utente: ");
+				String cognomeUtente = scanner.next();
+				System.out.print("Inserisci la data di nascita dell'utente (formato: anno-mese-giorno): ");
+				String dataNascitaUtente = scanner.next();
 
-		        LocalDate dataNascita;
-		        dataNascita = LocalDate.parse(dataNascitaUtente);
+				LocalDate dataNascita;
+				dataNascita = LocalDate.parse(dataNascitaUtente);
 
-		        Utente nuovoUtente = new Utente(nomeUtente, cognomeUtente, dataNascita);
-		        sd.save(nuovoUtente);
+				Utente nuovoUtente = new Utente(nomeUtente, cognomeUtente, dataNascita);
+				sd.save(nuovoUtente);
 
-		        utente = nuovoUtente;
-		    } else {
-		        System.out.println("Scelta non valida. Riprova.");
-		    }
+				utente = nuovoUtente;
+			} else if (risposta.equals("admin")) {
+				// qui scriveremo il menu per la versione admin
+
+			} else {
+				System.out.println("Scelta non valida. Riprova.");
+			}
 		}
 		int scelta = 0;
 
@@ -112,92 +115,132 @@ public class App {
 			scelta = scanner.nextInt();
 
 			switch (scelta) {
-			
-			case 1: 
+
+			case 1:
 				Boolean sceltaVenditore = false;
-				while(!sceltaVenditore) {
-				System.out.println("Rivenditori o distributori nelle vicinanze:");
-				List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
-				for (Rivenditore rivenditori : AllRivenditori) {
-					System.out.println(rivenditori);
-				}
-				System.out.print("Inserisci ID: ");
-				long id = Long.parseLong(scanner.next());
-				rivenditore = rb.ricercaRivenditoreDaId(id);
-				if (rivenditore instanceof Distributore) {
-					Distributore distributore = (Distributore) rivenditore;
-					if(distributore.getStato()== StatoDistributore.DISATTIVO) {
-						System.out.println("Distributore non attivo. Vai da un altro venditore.");
-						
+				while (!sceltaVenditore) {
+					System.out.println("Rivenditori o distributori nelle vicinanze:");
+					List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
+					for (Rivenditore rivenditori : AllRivenditori) {
+						System.out.println(rivenditori);
+					}
+					System.out.print("Inserisci ID: ");
+					long id = Long.parseLong(scanner.next());
+					rivenditore = rb.ricercaRivenditoreDaId(id);
+					if (rivenditore instanceof Distributore) {
+						Distributore distributore = (Distributore) rivenditore;
+						if (distributore.getStato() == StatoDistributore.DISATTIVO) {
+							System.out.println("Distributore non attivo. Vai da un altro venditore.");
+
+						} else {
+							System.out.println("Hai scelto un distributore");
+							sceltaVenditore = true;
+						}
 					} else {
-						System.out.println("Hai scelto un distributore");
+
+						System.out.println("Hai scelto un rivenditore");
 						sceltaVenditore = true;
 					}
-				} else {
-					
-					System.out.println("Hai scelto un rivenditore");
-					sceltaVenditore = true;
-				}
 				}
 				System.out.println("Vuoi un biglietto o un abbonamento? (b/a)");
 				String risposta2 = scanner.next();
-				if(risposta2.equals("b")) {
-					
+				if (risposta2.equals("b")) {
+
 					System.out.println("Quanti biglietti vuoi?");
 					int numeroBiglietti = scanner.nextInt();
-					for(int i = 0 ; i < numeroBiglietti; i++) {
-						
-						Biglietti biglietto= new Biglietti();
+					for (int i = 0; i < numeroBiglietti; i++) {
+
+						Biglietti biglietto = new Biglietti();
 						utente.getBiglietti().add(biglietto);
 						rivenditore.getBiglietti().add(biglietto);
-						bi.save(biglietto);						
+						bi.save(biglietto);
 					}
 					System.out.println("Acquisto effettuato.");
-					
-				} else if(risposta2.equals("a")) {
+
+				} else if (risposta2.equals("a")) {
 					System.out.println("Per comprare un abbonamento devi possedere una tessera");
-					while(tessera == null) {
-					System.out.println("Hai gia una tessera? (y/n)");
-					String risposta3 = scanner.next();
-					if (risposta3.equals("y")) {
-						
-						
-						System.out.print("Inserisci l'ID della tessera: ");
-						long id = Long.parseLong(scanner.next());
-						Tessera tessera1 = ts.ricercaTesseraDaId(id);
-								if (tessera1 == null) {
-									System.out.println("Tessera non trovata");
-									
-								} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
-									System.out.println("Tessera scaduta");
-									tessera1.setDataEmissione(LocalDate.now());
-									System.out.println("Rinnovo effettuato");
-									tessera = tessera1;
-								} else {
-									System.out.println("Tessera valida");
-									tessera = tessera1;
-								}				
-					} else if (risposta3.equals("n")) {
-						tessera = new Tessera(utente);
-						ts.save(tessera);
-						System.out.println("Tessera creata correttamente.");
+					while (tessera == null) {
+						System.out.println("Hai gia una tessera? (y/n)");
+						String risposta3 = scanner.next();
+						if (risposta3.equals("y")) {
+
+							System.out.print("Inserisci l'ID della tessera: ");
+							long id = Long.parseLong(scanner.next());
+							Tessera tessera1 = ts.ricercaTesseraDaId(id);
+							if (tessera1 == null) {
+								System.out.println("Tessera non trovata");
+
+							} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
+								System.out.println("Tessera scaduta");
+								tessera1.setDataEmissione(LocalDate.now());
+								System.out.println("Rinnovo effettuato");
+								tessera = tessera1;
+							} else {
+								System.out.println("Tessera valida");
+								tessera = tessera1;
+							}
+						} else if (risposta3.equals("n")) {
+							tessera = new Tessera(utente);
+							ts.save(tessera);
+							System.out.println("Tessera creata correttamente.");
+						}
+
 					}
+					System.out.println("Che tipo di abbonamento vuoi? SETTIMANALE/MENSILE");
+					String periodicitaAbbonamento = scanner.nextLine();
+
+					Periodicita periodicita = null;
+					while (periodicita == null) {
+						switch (periodicitaAbbonamento.toUpperCase()) {
+						case "SETTIMANALE":
+							periodicita = Periodicita.SETTIMANALE;
+
+							break;
+						case "MENSILE":
+							periodicita = Periodicita.MENSILE;
+							break;
+						default:
+							System.out.println("Periodicità non valida.");
+							periodicita = null;
+							break;
+						}
+					}
+					Abbonamenti abbonamento = new Abbonamenti(periodicita, rivenditore, tessera);
+					ab.save(abbonamento);
+					rivenditore.getAbbonamenti().add(abbonamento);
+					tessera.setAbbonamento(abbonamento);
+					System.out.println("Abbonamento effettuato");
+				}
+				break;
+
+			case 2:
+				System.out.println("Mezzi in stazione: ");
+				List<ParcoMezzi> mezziPresenti = pm.visualizzaParcoMezzi();
+				for(ParcoMezzi mezzi : mezziPresenti) {
+					System.out.println(mezzi);
+				}
+				System.out.print("Inserisci l'ID del mezzo: ");
+				long id = Long.parseLong(scanner.next());
+				ParcoMezzi mezzo = pm.ricercaMezziDaId(id);
+				if (mezzo.getTipoMezzo() == TipoMezzo.AUTOBUS) {
+					System.out.println("Sei salito su un autobus");
+				} else { System.out.println("Sei salito su un tram");}
+				Boolean accessoServizioMezzo = false;
+				while(!accessoServizioMezzo) {
+					System.out.println("Usare un biglietto o un abbonamento   (b/a)");
+					
 					
 				}
-					System.out.println("");
-					}
 				break;
-			
-			
-			case 2: break;
-			
-			
-			case 3: break;
+
+			case 3:
+				System.out.println("Uscita...");
+				scanner.close();
+				em.close();
+
+				break;
 			}
 		}
-
-		scanner.close();
-		em.close();
 
 	}
 }
