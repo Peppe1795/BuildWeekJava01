@@ -218,7 +218,10 @@ public class App {
 								break;
 							}
 						}
+						System.out.println(dataScadenza);
+						System.out.println(periodicita);
 						Abbonamenti abbonamento = new Abbonamenti(periodicita,dataScadenza ,rivenditore, tessera);
+						System.out.println(abbonamento);
 						abbonamento.setPuntoVendita(rivenditore);
 						ab.save(abbonamento);
 						//da aggiustare
