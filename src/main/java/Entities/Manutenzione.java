@@ -1,8 +1,6 @@
 package Entities;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,27 +19,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class Manutenzione {
-	
-	@Id
-	@GeneratedValue
-	@OneToOne
-	@JoinColumn (name = "manutenzione_mezzo")
-	private long id;
-	
-	private LocalDate dataInizioManutenzione;
-	private LocalDate dataFineManutenzione;
-	@Enumerated(EnumType.STRING)
-	private Intervento tipoIntervento;
-	
-	public Manutenzione (Intervento tipoIntervento, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione ) {
-		
-		this.tipoIntervento = tipoIntervento;
-		this.dataInizioManutenzione = dataInizioManutenzione;
-		this.dataFineManutenzione = dataFineManutenzione;
-		
-		
-	}
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private LocalDate dataInizioManutenzione;
+    private int durataInterventoManutenzione;
+
+    @Enumerated(EnumType.STRING)
+    private Intervento tipoIntervento;
+
+    @OneToOne
+    @JoinColumn(name = "manutenzione_mezzo")
+    private ParcoMezzi parcoMezzi;
+
+    public Manutenzione(Intervento tipoIntervento, LocalDate dataInizioManutenzione, int durataInterventoManutenzione) {
+        this.tipoIntervento = tipoIntervento;
+        this.dataInizioManutenzione = dataInizioManutenzione;
+        this.durataInterventoManutenzione = durataInterventoManutenzione;
+    }
 }
