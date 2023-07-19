@@ -49,24 +49,26 @@ public class App {
 		Tessera tessera = null;
 		String risposta = null;
 		LocalDate dataScadenza = null;
-		
-		  Rivenditore rivenditore1 = new Rivenditore(); rb.save(rivenditore1);
-		  
-		  Distributore distributore1 = new Distributore(StatoDistributore.ATTIVO);
-		  Distributore distributore2 = new Distributore(StatoDistributore.DISATTIVO);
-		  
-		  ds.save(distributore2); ds.save(distributore1);
-		  
-		  Tratta tratta1 = new Tratta("Napoli", "Roma", 3.15); Tratta tratta2 = new
-		  Tratta("Bergamo", "Milano", 2.45);
-		  
-		  ParcoMezzi tram1 = new ParcoMezzi(TipoMezzo.TRAM, StatoMezzi.IN_SERVIZIO,
-		  LocalDate.now(), 60, tratta1); ParcoMezzi autobus1 = new
-		  ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 100,
-		  tratta2);
-		 
-		  tr.save(tratta1); tr.save(tratta2); pm.save(autobus1); pm.save(tram1);
-		 
+
+		/*
+		 * Rivenditore rivenditore1 = new Rivenditore(); rb.save(rivenditore1);
+		 * 
+		 * Distributore distributore1 = new Distributore(StatoDistributore.ATTIVO);
+		 * Distributore distributore2 = new Distributore(StatoDistributore.DISATTIVO);
+		 * 
+		 * ds.save(distributore2); ds.save(distributore1);
+		 * 
+		 * Tratta tratta1 = new Tratta("Napoli", "Roma", 3.15); Tratta tratta2 = new
+		 * Tratta("Bergamo", "Milano", 2.45);
+		 * 
+		 * ParcoMezzi tram1 = new ParcoMezzi(TipoMezzo.TRAM, StatoMezzi.IN_SERVIZIO,
+		 * LocalDate.now(), 60, tratta1); ParcoMezzi autobus1 = new
+		 * ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 100,
+		 * tratta2);
+		 * 
+		 * tr.save(tratta1); tr.save(tratta2); pm.save(autobus1); pm.save(tram1);
+		 */
+
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
 		Utente utente = null;
@@ -220,13 +222,13 @@ public class App {
 						}
 						System.out.println(dataScadenza);
 						System.out.println(periodicita);
-						Abbonamenti abbonamento = new Abbonamenti(periodicita,dataScadenza ,rivenditore, tessera);
+						Abbonamenti abbonamento = new Abbonamenti(periodicita, dataScadenza, rivenditore, tessera);
 						System.out.println(abbonamento);
 						abbonamento.setPuntoVendita(rivenditore);
 						ab.save(abbonamento);
-						//da aggiustare
+						// da aggiustare
 						List<Abbonamenti> abbonamenti = new ArrayList<Abbonamenti>();
-						abbonamenti= rivenditore.getAbbonamenti();
+						abbonamenti = rivenditore.getAbbonamenti();
 						System.out.println("prima riga");
 						abbonamenti.add(abbonamento);
 						System.out.println("seconda riga");
@@ -245,17 +247,28 @@ public class App {
 					System.out.print("Inserisci l'ID del mezzo: ");
 					long id = Long.parseLong(scanner.next());
 					ParcoMezzi mezzo = pm.ricercaMezziDaId(id);
+
+					if (mezzo == null) {
+						System.out.println("Mezzo non trovato. Torna alla lista dei mezzi.");
+						break;
+					}
+
+					if (mezzo.getStatoMezzi() == StatoMezzi.IN_MANUTENZIONE) {
+						System.out.println("Il mezzo è attualmente in manutenzione. Torna alla lista dei mezzi.");
+						break;
+					}
+
 					if (mezzo.getTipoMezzo() == TipoMezzo.AUTOBUS) {
 						System.out.println("Sei salito su un autobus");
 					} else {
 						System.out.println("Sei salito su un tram");
 					}
+
 					Boolean accessoServizioMezzo = false;
 					while (!accessoServizioMezzo) {
 						System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
 						String rispostaSulMezzo = scanner.next();
 						if (rispostaSulMezzo.equals("b")) {
-
 							System.out.print("Inserire l'ID del biglietto: ");
 							long idBiglietto = Long.parseLong(scanner.next());
 							Biglietti biglietto = bi.ricercaBigliettoDaId(idBiglietto);
@@ -273,7 +286,6 @@ public class App {
 								System.out.println("Biglietto non valido");
 							}
 						} else if (rispostaSulMezzo.equals("a")) {
-
 							System.out.print("Inserire l'ID della Tessera: ");
 							long idTessera = Long.parseLong(scanner.next());
 							Tessera tesseraPerVerifica = ts.ricercaTesseraDaId(idTessera);
@@ -286,23 +298,22 @@ public class App {
 								Abbonamenti abbonamento = tesseraPerVerifica.getAbbonamento();
 								if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
 									System.out.println(
-											"Abbonamento scaduto, usare un biglieto o fare un altro abbonamento da un rivenditore.");
-								} else if(abbonamento == null) {
+											"Abbonamento scaduto, usare un biglietto o fare un altro abbonamento da un rivenditore.");
+								} else if (abbonamento == null) {
 									System.out.println("Nessun abbonamento trovato");
-								}
-								
-								else {
+								} else {
 									System.out.println("Ciao");
-									
+									accessoServizioMezzo = true;
 								}
 							}
+						} else if (rispostaSulMezzo.equals("e")) {
+							System.out.println("Sei sceso dal mezzo.");
+							break;
 						} else {
 							System.out.println("Scelta non valida");
 						}
-
 					}
 					break;
-
 				case 3:
 					System.out.println("Uscita...");
 					scanner.close();
