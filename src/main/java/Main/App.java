@@ -119,7 +119,7 @@ public class App {
 				System.out.println("Rivenditori o distributori nelle vicinanze:");
 				List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
 				for (Rivenditore rivenditori : AllRivenditori) {
-					System.out.println(rivenditore);
+					System.out.println(rivenditori);
 				}
 				System.out.print("Inserisci ID: ");
 				long id = Long.parseLong(scanner.next());
@@ -156,30 +156,36 @@ public class App {
 					
 				} else if(risposta2.equals("a")) {
 					System.out.println("Per comprare un abbonamento devi possedere una tessera");
+					while(tessera == null) {
 					System.out.println("Hai gia una tessera? (y/n)");
 					String risposta3 = scanner.next();
 					if (risposta3.equals("y")) {
 						
-						while(tessera == null) {
+						
 						System.out.print("Inserisci l'ID della tessera: ");
 						long id = Long.parseLong(scanner.next());
-						tessera = ts.ricercaTesseraDaId(id);
-								if (tessera == null) {
-									System.out.println("Tessera non trovata");				
-								} else if (tessera.getDataScadenza().isBefore(LocalDate.now())) {
+						Tessera tessera1 = ts.ricercaTesseraDaId(id);
+								if (tessera1 == null) {
+									System.out.println("Tessera non trovata");
+									
+								} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
 									System.out.println("Tessera scaduta");
-									tessera.setDataEmissione(LocalDate.now());
+									tessera1.setDataEmissione(LocalDate.now());
 									System.out.println("Rinnovo effettuato");
+									tessera = tessera1;
 								} else {
 									System.out.println("Tessera valida");
-								}
-						}
+									tessera = tessera1;
+								}				
 					} else if (risposta3.equals("n")) {
-						
 						tessera = new Tessera(utente);
+						ts.save(tessera);
+						System.out.println("Tessera creata correttamente.");
 					}
 					
 				}
+					System.out.println("");
+					}
 				break;
 			
 			
