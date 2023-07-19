@@ -1,5 +1,7 @@
 package DAO;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -22,5 +24,10 @@ public class ParcoMezziDAO {
 
 		System.out.println("Elemento salvato correttamente");
 
+	}
+	
+	public List<ParcoMezzi> visualizzaParcoMezzi() {
+	    return em.createQuery("SELECT * FROM parcomezzi", ParcoMezzi.class)    
+	            .getResultList();
 	}
 }

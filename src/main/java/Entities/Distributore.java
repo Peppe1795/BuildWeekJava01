@@ -22,4 +22,8 @@ public class Distributore extends Rivenditore {
 		this.stato = stato;
 	}
 
+	@Override
+	public String toString() {
+		return "Distributore id: " + getId()+" " + "stato: " + getStato();
+	}
 }

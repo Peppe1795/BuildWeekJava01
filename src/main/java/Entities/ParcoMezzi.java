@@ -1,5 +1,6 @@
 package Entities;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -32,13 +33,14 @@ public class ParcoMezzi {
 	private TipoMezzo tipoMezzo;
 	@Enumerated(EnumType.STRING)
 	private StatoMezzi statoMezzi;
+	private LocalDate inizioStatoMezzo;
 	private int capienza;
 	@OneToOne(mappedBy = "parcoMezzi")
 	private Tratta tratta; //forse diventa una lista
 	@OneToMany(mappedBy = "puntoVidimazione")
 	private List<Biglietti> biglietti;
 
-	public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, int capienza, Tratta tratta) {
+	public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi,LocalDate inizioStatoMezzo, int capienza, Tratta tratta) {
 		super();
 		this.tipoMezzo = tipoMezzo;
 		this.statoMezzi = statoMezzi;

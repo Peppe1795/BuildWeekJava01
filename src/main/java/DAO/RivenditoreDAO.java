@@ -1,5 +1,7 @@
 package DAO;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -23,4 +25,14 @@ public class RivenditoreDAO {
 		System.out.println("Elemento salvato correttamente");
 
 	}
+	
+	public List<Rivenditore> visualizzaRivenditori() {
+	    return em.createQuery("SELECT r FROM Rivenditore r", Rivenditore.class)
+	             .getResultList();
+	
+	}
+	
+	public Rivenditore ricercaRivenditoreDaId(Long id) {
+        return em.find(Rivenditore.class, id);
+    }
 }

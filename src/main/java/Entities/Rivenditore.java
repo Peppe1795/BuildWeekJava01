@@ -35,5 +35,9 @@ public class Rivenditore {
 	private List<Biglietti> biglietti;
 	@OneToMany(mappedBy = "puntoVendita")
 	private List<Abbonamenti> abbonamenti;
+	@Override
+	public String toString() {
+		return "Rivenditore id: " + id;
+	}
 
 }
