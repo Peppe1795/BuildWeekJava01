@@ -54,4 +54,10 @@ public class ParcoMezzi {
         this.capienza = capienza;
         this.tratta = tratta;
     }
+    
+    @Override
+	public String toString() {
+		return "tipo mezzo:" + tipoMezzo + ", id:"+ id + ", stato mezzi:" + statoMezzi + ", tratta:" + tratta;
+	}
+
 }
