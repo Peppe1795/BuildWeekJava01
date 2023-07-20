@@ -46,11 +46,11 @@ public class App {
 		ParcoMezziDAO pm = new ParcoMezziDAO(em);
 		TrattaService trattaService = new TrattaService();
 		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
-		//pm.save(mezzop);
+		// pm.save(mezzop);
 		Rivenditore ok = new Rivenditore();
-		//rb.save(ok);
+		// rb.save(ok);
 		Distributore gg = new Distributore(StatoDistributore.ATTIVO);
-		//rb.save(gg);
+		// rb.save(gg);
 		Rivenditore rivenditore = null;
 		Tessera tessera = null;
 		String risposta = null;
@@ -254,7 +254,11 @@ public class App {
 				} else {
 					System.out.println("Sei salito su un tram");
 				}
-
+				System.out.println("Scegli una tratta inserendo l'ID: ");
+				System.out.println(mezzo.getTratte()); 
+				long idTratta = Long.parseLong(scanner.next());
+				Tratta tratta2 = tr.ricercaTrattaDaId(idTratta);
+				System.out.println("Hai scelto la tratta: " + tratta2);
 				Boolean accessoServizioMezzo = false;
 				while (!accessoServizioMezzo) {
 					System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
@@ -461,8 +465,8 @@ public class App {
 					mezzo = pm.ricercaMezziDaId(idMezzo);
 					System.out.println(mezzo.getTratte());
 					List<Tratta> tratte = mezzo.getTratte();
-						    List<List<Tratta>> tratteRaggruppate = trattaService.raggruppaTratte(tratte);
-						    trattaService.calcolaTempoPercorrenzaTotalePerLista(tratteRaggruppate);
+					List<List<Tratta>> tratteRaggruppate = trattaService.raggruppaTratte(tratte);
+					trattaService.calcolaTempoPercorrenzaTotalePerLista(tratteRaggruppate);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}

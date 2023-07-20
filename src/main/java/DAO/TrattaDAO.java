@@ -33,4 +33,7 @@ public class TrattaDAO {
 		 return em.createQuery("SELECT r FROM Tratta r", Tratta.class)
 	             .getResultList();
     }
+	public Tratta ricercaTrattaDaId(Long id) {
+        return em.find(Tratta.class, id);
+    }
 }
