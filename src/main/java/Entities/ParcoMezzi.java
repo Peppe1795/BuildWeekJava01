@@ -43,21 +43,6 @@ public class ParcoMezzi {
 	@OneToOne(mappedBy = "parcoMezzi")
 	private Manutenzione manutenzione;
 
-	@OneToOne(mappedBy = "parcoMezzi")
-	private Tratta tratta;
-
-	@OneToMany(mappedBy = "puntoVidimazione")
-	private List<Biglietti> biglietti = new ArrayList<>();
-
-	public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, LocalDate inizioStatoMezzo, int capienza,
-			Tratta tratta) {
-		this.tipoMezzo = tipoMezzo;
-		this.statoMezzi = statoMezzi;
-		this.capienza = capienza;
-		this.tratta = tratta;
-	}
-
-	@Override
     @OneToMany(mappedBy = "parcoMezzi")
     private List<Tratta> tratte = new ArrayList<>();
 
@@ -75,6 +60,7 @@ public class ParcoMezzi {
     }
     
     @Override
+
 	public String toString() {
 		return "tipo mezzo:" + tipoMezzo + ", id:" + id + ", stato mezzi:" + statoMezzi + ", tratta:" + tratta;
 	}
