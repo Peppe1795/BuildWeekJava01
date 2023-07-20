@@ -223,7 +223,7 @@ public class App {
 					abbonamenti.add(abbonamento);
 					rivenditore.setAbbonamenti(abbonamenti);
 					tessera.setAbbonamento(abbonamento);
-					
+
 					System.out.println("Abbonamento effettuato");
 				}
 				break;
@@ -331,8 +331,9 @@ public class App {
 					}
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
-				}break;
-				
+				}
+				break;
+
 			case 5:
 				if (risposta.equals("admin")) {
 
@@ -353,9 +354,62 @@ public class App {
 					}
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
-				} break;
-				
+				}
+				break;
+
 			case 6:
+				if (risposta.equals("admin")) {
+
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 7:
+				if (risposta.equals("admin")) {
+
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 8:
+				if (risposta.equals("admin")) {
+					System.out.println("Inserisci l'ID di un mezzo: ");
+					List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
+					for (ParcoMezzi mezzo1 : mezzi) {
+						System.out.println(mezzo1);
+					}
+					long idMezzo = Long.parseLong(scanner.next());
+					mezzo = pm.ricercaMezziDaId(idMezzo);
+					List<Biglietti> bigliettiVidimati = mezzo.getBiglietti();
+					if (bigliettiVidimati.size() > 0) {
+						for (Biglietti bigliettoVidimato : bigliettiVidimati) {
+							System.out.println(bigliettoVidimato);
+						}
+					} else {
+						System.out.println("Questo mezzo non ha vidimato alcun biglietto");
+					}
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 9:
+				if (risposta.equals("admin")) {
+
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 10:
+				if (risposta.equals("admin")) {
+
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
 			}
 		}
 
