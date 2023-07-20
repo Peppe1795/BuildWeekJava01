@@ -7,7 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import Entities.Abbonamenti;
+import Entities.Rivenditore;
 import Entities.Tratta;
+import Entities.Utente;
 
 public class TrattaDAO {
 	private final EntityManager em;
@@ -27,5 +29,8 @@ public class TrattaDAO {
 		System.out.println("Elemento salvato correttamente");
 
 	}
-	
+	public List<Tratta> ricercaTratteDaId(Long id) {
+		 return em.createQuery("SELECT r FROM Tratta r", Tratta.class)
+	             .getResultList();
+    }
 }

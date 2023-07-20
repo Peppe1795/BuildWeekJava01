@@ -14,6 +14,7 @@ import DAO.ParcoMezziDAO;
 import DAO.RivenditoreDAO;
 import DAO.TesseraDAO;
 import DAO.TrattaDAO;
+import DAO.TrattaService;
 import DAO.UtenteDAO;
 import Entities.Abbonamenti;
 import Entities.Biglietti;
@@ -43,13 +44,13 @@ public class App {
 		RivenditoreDAO rb = new RivenditoreDAO(em);
 		TrattaDAO tr = new TrattaDAO(em);
 		ParcoMezziDAO pm = new ParcoMezziDAO(em);
-
+		TrattaService trattaService = new TrattaService();
 		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
-		// pm.save(mezzop);
+		//pm.save(mezzop);
 		Rivenditore ok = new Rivenditore();
-		// rb.save(ok);
+		//rb.save(ok);
 		Distributore gg = new Distributore(StatoDistributore.ATTIVO);
-		// rb.save(gg);
+		//rb.save(gg);
 		Rivenditore rivenditore = null;
 		Tessera tessera = null;
 		String risposta = null;
@@ -156,7 +157,6 @@ public class App {
 
 					for (int i = 0; i < numeroBiglietti; i++) {
 						Biglietti biglietto = new Biglietti();
-						
 
 						System.out.println("ID Utente: " + utente.getId());
 						System.out.println("ID Rivenditore: " + rivenditore.getId());
@@ -356,7 +356,13 @@ public class App {
 
 			case 6:
 				if (risposta.equals("admin")) {
-
+					System.out.println("Inserisci l'ID di un mezzo: ");
+					List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
+					for (ParcoMezzi mezzo1 : mezzi) {
+						System.out.println(mezzo1);
+					}
+					long idMezzo = Long.parseLong(scanner.next());
+					pm.updateStatoMezzo(idMezzo);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
@@ -365,6 +371,35 @@ public class App {
 			case 7:
 				if (risposta.equals("admin")) {
 
+					System.out.println("Inserisci l'ID di un mezzo: ");
+					List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
+					for (ParcoMezzi mezzo1 : mezzi) {
+						System.out.println(mezzo1);
+					}
+					long idMezzo = Long.parseLong(scanner.next());
+					mezzo = pm.ricercaMezziDaId(idMezzo);
+
+					// Avvia la manutenzione del mezzo (esempio)
+					LocalDate dataInizioManutenzione = LocalDate.of(2023, 7, 20);
+					LocalDate dataFineManutenzione = LocalDate.of(2023, 7, 25);
+					mezzo.avviaManutenzione(dataInizioManutenzione, dataFineManutenzione);
+
+					// Aggiorna il conteggio dei giorni di servizio e manutenzione (esempio)
+					mezzo.aggiornaGiorniServizio();
+					mezzo.aggiornaGiorniManutenzione();
+
+					// Completamento della manutenzione e rimessa in servizio del mezzo (esempio)
+					mezzo.completamentoManutenzione();
+
+					// Aggiorna nuovamente il conteggio dei giorni di servizio (esempio)
+					mezzo.aggiornaGiorniServizio();
+
+					// Ottieni il numero totale di giorni di servizio e manutenzione (esempio)
+					int giorniServizio = mezzo.getGiorniTotaleServizio();
+					int giorniManutenzione = mezzo.getGiorniTotaleManutenzione();
+					pm.update(mezzo);
+					System.out.println("Numero totale di giorni di servizio: " + giorniServizio);
+					System.out.println("Numero totale di giorni di manutenzione: " + giorniManutenzione);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
@@ -394,22 +429,22 @@ public class App {
 
 			case 9:
 				if (risposta.equals("admin")) {
-                System.out.println("Inserisci un punto di partenza");
-                String puntoDiPartenza = scanner.next();
-                System.out.println("Inserisci un capolinea");
-                String capolinea = scanner.next();
-                System.out.println("Inserisci il tempo di percorrenza");
-                double tempoDiPercorrenza = Double.parseDouble(scanner.next());
-                Tratta tratta = new Tratta(puntoDiPartenza, capolinea, tempoDiPercorrenza);
-                tr.save(tratta);
-                System.out.println("Inserisci l'ID di un mezzo: ");
-				List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
-				for (ParcoMezzi mezzo1 : mezzi) {
-					System.out.println(mezzo1);
-				}
-				long idMezzo = Long.parseLong(scanner.next());
-				mezzo = pm.ricercaMezziDaId(idMezzo);
-				mezzo.addTratta(tratta);
+					System.out.println("Inserisci un punto di partenza");
+					String puntoDiPartenza = scanner.next();
+					System.out.println("Inserisci un capolinea");
+					String capolinea = scanner.next();
+					System.out.println("Inserisci il tempo di percorrenza");
+					double tempoDiPercorrenza = Double.parseDouble(scanner.next());
+					Tratta tratta = new Tratta(puntoDiPartenza, capolinea, tempoDiPercorrenza);
+					tr.save(tratta);
+					System.out.println("Inserisci l'ID di un mezzo: ");
+					List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
+					for (ParcoMezzi mezzo1 : mezzi) {
+						System.out.println(mezzo1);
+					}
+					long idMezzo = Long.parseLong(scanner.next());
+					mezzo = pm.ricercaMezziDaId(idMezzo);
+					mezzo.addTratta(tratta);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
@@ -424,7 +459,10 @@ public class App {
 					}
 					long idMezzo = Long.parseLong(scanner.next());
 					mezzo = pm.ricercaMezziDaId(idMezzo);
-					System.out.println(mezzo.getTratte());  
+					System.out.println(mezzo.getTratte());
+					List<Tratta> tratte = mezzo.getTratte();
+						    List<List<Tratta>> tratteRaggruppate = trattaService.raggruppaTratte(tratte);
+						    trattaService.calcolaTempoPercorrenzaTotalePerLista(tratteRaggruppate);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
@@ -434,13 +472,13 @@ public class App {
 				if (risposta.equals("admin")) {
 					System.out.println("Inserire una data: anno-mese-giorno");
 					String dataS = scanner.next();
-		
+
 					LocalDate dataRicerca = LocalDate.parse(dataS);
-					List <Biglietti> bigliettiDaData = bi.ricercaBigliettiPerData(dataRicerca);
+					List<Biglietti> bigliettiDaData = bi.ricercaBigliettiPerData(dataRicerca);
 					for (Biglietti biglietto : bigliettiDaData) {
 						System.out.println(biglietto);
 					}
-					
+
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
@@ -452,7 +490,7 @@ public class App {
 					String dataS = scanner.next();
 
 					LocalDate dataRicerca = LocalDate.parse(dataS);
-					List <Abbonamenti> abbonamentiDaData = ab.ricercaAbbonamentiPerData(dataRicerca);
+					List<Abbonamenti> abbonamentiDaData = ab.ricercaAbbonamentiPerData(dataRicerca);
 					for (Abbonamenti abbonamento : abbonamentiDaData) {
 						System.out.println(abbonamento);
 					}

@@ -26,6 +26,16 @@ public class ParcoMezziDAO {
 		System.out.println("Elemento salvato correttamente");
 
 	}
+	
+	public void update(ParcoMezzi parcoMezzi) {
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+
+        
+        em.merge(parcoMezzi);
+
+        t.commit();
+	}
 
 	public List<ParcoMezzi> visualizzaParcoMezzi() {
 		return em.createQuery("SELECT r FROM ParcoMezzi r", ParcoMezzi.class).getResultList();
