@@ -25,7 +25,7 @@ public class Tratta {
 	private String capolinea;
 	private double tempoMedioDiPercorrenza;
 	@ManyToOne
-	@JoinColumn(name = "tratta_id")
+	@JoinColumn(name = "mezzo_id")
 	private ParcoMezzi parcoMezzi;
 
 	public Tratta(String zonaDiPartenza, String capolinea, double tempoMedioDiPercorrenza) {

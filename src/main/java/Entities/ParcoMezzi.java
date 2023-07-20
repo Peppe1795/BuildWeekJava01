@@ -48,21 +48,29 @@ public class ParcoMezzi {
 
     @OneToMany(mappedBy = "puntoVidimazione")
     private List<Biglietti> biglietti = new ArrayList<>();;
-    
-    private Tratta tratta;
-
-    public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, LocalDate inizioStatoMezzo, int capienza, Tratta tratta) {
+ 
+    public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, LocalDate inizioStatoMezzo, int capienza) {
         this.tipoMezzo = tipoMezzo;
         this.statoMezzi = statoMezzi;
         this.capienza = capienza;
-        this.tratta = tratta;
-        this.tratte.add(tratta);
     }
     
     @Override
 
 	public String toString() {
-		return "tipo mezzo:" + tipoMezzo + ", id:" + id + ", stato mezzi:" + statoMezzi + ", tratta:" + tratta;
+		return "tipo mezzo:" + tipoMezzo + ", id:" + id + ", stato mezzi:" + statoMezzi + "Tratte: " + tratte.toString();
 	}
+    public void addTratta(Tratta tratta) {
+        if (tratta != null) {
+            tratta.setParcoMezzi(this);
+            tratte.add(tratta);
+        }
+    }
+    public void addBiglietto(Biglietti biglietto) {
+        if (biglietto != null) {
+            biglietto.setPuntoVidimazione(this);
+            biglietti.add(biglietto);
+        }
+    }
 
 }

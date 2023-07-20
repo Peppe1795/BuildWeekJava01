@@ -45,4 +45,10 @@ public class Utente {
 		return "Utente [tessera=" + tessera + ", nome=" + nome + ", cognome=" + cognome + ", dataDiNascita="
 				+ dataDiNascita + "]";
 	}
+	public void addBiglietto(Biglietti biglietto) {
+        if (biglietto != null) {
+            biglietto.setUtente(this);
+            biglietti.add(biglietto);
+        }
+    }
 }

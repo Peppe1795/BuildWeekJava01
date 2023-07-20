@@ -41,5 +41,18 @@ public class Rivenditore {
 	public String toString() {
 		return "Rivenditore id: " + id;
 	}
+	public void addBiglietto(Biglietti biglietto) {
+        if (biglietto != null) {
+            biglietto.setPuntoVendita(this);
+            biglietti.add(biglietto);
+        }
+    }
 
+    
+    public void addAbbonamento(Abbonamenti abbonamento) {
+        if (abbonamento != null) {
+            abbonamento.setPuntoVendita(this);
+            abbonamenti.add(abbonamento);
+        }
+    }
 }
