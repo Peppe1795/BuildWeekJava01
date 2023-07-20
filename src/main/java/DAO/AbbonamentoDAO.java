@@ -1,5 +1,8 @@
 package DAO;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -27,5 +30,11 @@ public class AbbonamentoDAO {
 	
 	public Abbonamenti ricercaAbbonamentoDaId(Long id) {
 		return em.find(Abbonamenti.class, id);
+	}
+	
+	public List<Abbonamenti> ricercaAbbonamentiPerData(LocalDate data){
+		return em.createQuery("SELECT p FROM Abbonamenti p WHERE p.dataemissione =:dataemissione", Abbonamenti.class)
+                .setParameter("dataemissione", data)
+                .getResultList();
 	}
 }

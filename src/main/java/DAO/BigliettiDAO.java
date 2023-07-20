@@ -1,5 +1,8 @@
 package DAO;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -27,5 +30,10 @@ public class BigliettiDAO {
 
 	public Biglietti ricercaBigliettoDaId(Long id) {
 		return em.find(Biglietti.class, id);
+	}
+	public List<Biglietti> ricercaBigliettiPerData(LocalDate data) {
+	    return em.createQuery("SELECT p FROM Biglietti p WHERE p.dataEmissione = :dataemissione", Biglietti.class)
+	             .setParameter("dataemissione", data)
+	             .getResultList();
 	}
 }

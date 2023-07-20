@@ -44,17 +44,17 @@ public class App {
 		TrattaDAO tr = new TrattaDAO(em);
 		ParcoMezziDAO pm = new ParcoMezziDAO(em);
 
-		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(),50);
-		
+		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
+		// pm.save(mezzop);
 		Rivenditore ok = new Rivenditore();
-		
+		// rb.save(ok);
 		Distributore gg = new Distributore(StatoDistributore.ATTIVO);
-		
+		// rb.save(gg);
 		Rivenditore rivenditore = null;
 		Tessera tessera = null;
 		String risposta = null;
 		LocalDate dataScadenza = null;
-		
+
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
 		sd.save(admin);
@@ -113,6 +113,8 @@ public class App {
 				System.out.println("8: Recupera biglietti vidimati di un mezzo");
 				System.out.println("9: Aggiungi tratta ad un mezzo");
 				System.out.println("10: Recupera tratte di un mezzo");
+				System.out.println("11: Recupera biglietti di una determinata data");
+				System.out.println("12: Recupera abbonamenti di una determinata data");
 			}
 
 			scelta = scanner.nextInt();
@@ -151,17 +153,18 @@ public class App {
 
 					System.out.println("Quanti biglietti vuoi?");
 					int numeroBiglietti = scanner.nextInt();
-					
-					for (int i = 0; i <= numeroBiglietti; i++) {
 
+					for (int i = 0; i < numeroBiglietti; i++) {
 						Biglietti biglietto = new Biglietti();
-
 						bi.save(biglietto);
+
+						System.out.println("ID Utente: " + utente.getId());
+						System.out.println("ID Rivenditore: " + rivenditore.getId());
 
 						utente.addBiglietto(biglietto);
 						rivenditore.addBiglietto(biglietto);
-					} 
-				
+					}
+
 					System.out.println("Acquisto effettuato.");
 
 				} else if (risposta2.equals("a")) {
@@ -215,9 +218,9 @@ public class App {
 					}
 
 					Abbonamenti abbonamento = new Abbonamenti(periodicita, dataScadenza, rivenditore, tessera);
-					
+
 					ab.save(abbonamento);
-					
+
 					rivenditore.addAbbonamento(abbonamento);
 					tessera.setAbbonamento(abbonamento);
 
@@ -262,7 +265,7 @@ public class App {
 						try {
 							if (biglietto.isVidimato() == false) {
 								System.out.println("Biglietto trovato. Puoi partire.");
-								
+
 								mezzo.addBiglietto(biglietto);
 							}
 						} catch (Exception e) {
@@ -399,6 +402,37 @@ public class App {
 			case 10:
 				if (risposta.equals("admin")) {
 
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 11:
+				if (risposta.equals("admin")) {
+					System.out.println("Inserire una data: anno-mese-giorno");
+					String dataS = scanner.next();
+		
+					LocalDate dataRicerca = LocalDate.parse(dataS);
+					List <Biglietti> bigliettiDaData = bi.ricercaBigliettiPerData(dataRicerca);
+					for (Biglietti biglietto : bigliettiDaData) {
+						System.out.println(biglietto);
+					}
+					
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 12:
+				if (risposta.equals("admin")) {
+					System.out.println("Inserire una data: anno-mese-giorno");
+					String dataS = scanner.next();
+
+					LocalDate dataRicerca = LocalDate.parse(dataS);
+					List <Abbonamenti> abbonamentiDaData = ab.ricercaAbbonamentiPerData(dataRicerca);
+					for (Abbonamenti abbonamento : abbonamentiDaData) {
+						System.out.println(abbonamento);
+					}
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
