@@ -51,6 +51,7 @@ public class App {
 
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
+		sd.save(admin);
 		Utente utente = null;
 
 		while (utente == null) {
@@ -81,7 +82,7 @@ public class App {
 
 				Utente nuovoUtente = new Utente(nomeUtente, cognomeUtente, dataNascita);
 				sd.save(nuovoUtente);
-
+				System.out.println("Utente aggiunto con successo.");
 				utente = nuovoUtente;
 			} else if (risposta.equals("admin")) {
 				utente = admin;
@@ -152,16 +153,16 @@ public class App {
 
 						biglietto.setPuntoVendita(rivenditore);
 						bi.save(biglietto);
-						
+
 						biglietti = utente.getBiglietti();
 						biglietti.add(biglietto);
-						utente.setBiglietti(biglietti);
 
 						biglietti1 = rivenditore.getBiglietti();
 						biglietti1.add(biglietto);
-						rivenditore.setBiglietti(biglietti);
 
 					}
+					utente.setBiglietti(biglietti);
+					rivenditore.setBiglietti(biglietti);
 					System.out.println("Acquisto effettuato.");
 
 				} else if (risposta2.equals("a")) {
@@ -213,20 +214,16 @@ public class App {
 							break;
 						}
 					}
-					System.out.println(dataScadenza);
-					System.out.println(periodicita);
+
 					Abbonamenti abbonamento = new Abbonamenti(periodicita, dataScadenza, rivenditore, tessera);
-					System.out.println(abbonamento);
 					abbonamento.setPuntoVendita(rivenditore);
 					ab.save(abbonamento);
-					// da aggiustare
 					List<Abbonamenti> abbonamenti = new ArrayList<Abbonamenti>();
 					abbonamenti = rivenditore.getAbbonamenti();
-					System.out.println("prima riga");
 					abbonamenti.add(abbonamento);
-					System.out.println("seconda riga");
 					rivenditore.setAbbonamenti(abbonamenti);
 					tessera.setAbbonamento(abbonamento);
+					
 					System.out.println("Abbonamento effettuato");
 				}
 				break;
@@ -334,8 +331,31 @@ public class App {
 					}
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
-				}
+				}break;
+				
+			case 5:
+				if (risposta.equals("admin")) {
 
+					System.out.println("Inserisci l'ID di un punto vendita: ");
+					List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
+					for (Rivenditore rivenditori : AllRivenditori) {
+						System.out.println(rivenditori);
+					}
+					long idPuntoVendita = Long.parseLong(scanner.next());
+					rivenditore = rb.ricercaRivenditoreDaId(idPuntoVendita);
+					List<Abbonamenti> abbonamenti = rivenditore.getAbbonamenti();
+					if (abbonamenti.size() > 0) {
+						for (Abbonamenti abbonamento : abbonamenti) {
+							System.out.println(abbonamento);
+						}
+					} else {
+						System.out.println("Questo venditore non ha venduto abbonamenti");
+					}
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				} break;
+				
+			case 6:
 			}
 		}
 

@@ -1,6 +1,7 @@
 package Entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -46,7 +47,7 @@ public class ParcoMezzi {
     private Tratta tratta;
 
     @OneToMany(mappedBy = "puntoVidimazione")
-    private List<Biglietti> biglietti;
+    private List<Biglietti> biglietti = new ArrayList<>();;
 
     public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, LocalDate inizioStatoMezzo, int capienza, Tratta tratta) {
         this.tipoMezzo = tipoMezzo;

@@ -19,7 +19,7 @@ public class UtenteDAO {
 		em.persist(utente);
 
 		t.commit();
-		System.out.println("Utente aggiunto con successo.");
+		
 	}
 	
 	public Utente ricercaUtenteDaId(Long id) {

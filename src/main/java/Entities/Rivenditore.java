@@ -35,7 +35,7 @@ public class Rivenditore {
 	@OneToMany(mappedBy = "puntoVendita")
 	private List<Biglietti> biglietti = new ArrayList<>();
 	@OneToMany(mappedBy = "puntoVendita")
-	private List<Abbonamenti> abbonamenti;
+	private List<Abbonamenti> abbonamenti = new ArrayList<>();;
 
 	@Override
 	public String toString() {
