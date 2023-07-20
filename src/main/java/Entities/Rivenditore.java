@@ -1,5 +1,6 @@
 package Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
@@ -32,9 +33,10 @@ public class Rivenditore {
 	private long id;
 
 	@OneToMany(mappedBy = "puntoVendita")
-	private List<Biglietti> biglietti;
+	private List<Biglietti> biglietti = new ArrayList<>();
 	@OneToMany(mappedBy = "puntoVendita")
 	private List<Abbonamenti> abbonamenti;
+
 	@Override
 	public String toString() {
 		return "Rivenditore id: " + id;
