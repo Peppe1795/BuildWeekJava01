@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -25,7 +24,6 @@ public class Tratta {
 	private String zonaDiPartenza;
 	private String capolinea;
 	private double tempoMedioDiPercorrenza;
-	@OneToOne
 	@ManyToOne
 	@JoinColumn(name = "tratta_id")
 	private ParcoMezzi parcoMezzi;
