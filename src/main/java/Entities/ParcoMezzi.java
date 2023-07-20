@@ -43,36 +43,93 @@ public class ParcoMezzi {
 	@OneToOne(mappedBy = "parcoMezzi")
 	private Manutenzione manutenzione;
 
-    @OneToMany(mappedBy = "parcoMezzi")
-    private List<Tratta> tratte = new ArrayList<>();
+	@OneToMany(mappedBy = "parcoMezzi")
+	private List<Tratta> tratte = new ArrayList<>();
 
-    @OneToMany(mappedBy = "puntoVidimazione")
-    private List<Biglietti> biglietti = new ArrayList<>();;
- 
-    public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, LocalDate inizioStatoMezzo, int capienza) {
-        this.tipoMezzo = tipoMezzo;
-        this.statoMezzi = statoMezzi;
-        this.capienza = capienza;
-    }
-    
-    @Override
+	@OneToMany(mappedBy = "puntoVidimazione")
+	private List<Biglietti> biglietti = new ArrayList<>();;
+
+	private LocalDate dataInizioManutenzione;
+	private LocalDate dataFineManutenzione;
+	private int giorniInServizio;
+	private int giorniInManutenzione;
+
+	public ParcoMezzi(TipoMezzo tipoMezzo, StatoMezzi statoMezzi, LocalDate inizioStatoMezzo, int capienza) {
+		this.tipoMezzo = tipoMezzo;
+		this.statoMezzi = statoMezzi;
+		this.inizioStatoMezzo = inizioStatoMezzo;
+		this.capienza = capienza;
+	}
+
+	public void avviaManutenzione(LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione) {
+		this.dataInizioManutenzione = dataInizioManutenzione;
+		this.dataFineManutenzione = dataFineManutenzione;
+		this.giorniInServizio = 0; // Resetta il conteggio dei giorni di servizio
+		this.statoMezzi = StatoMezzi.IN_MANUTENZIONE;
+	}
+
+	public void completamentoManutenzione() {
+		this.dataInizioManutenzione = null;
+		this.dataFineManutenzione = null;
+		this.statoMezzi = StatoMezzi.IN_SERVIZIO;
+	}
+
+	public boolean isInManutenzione() {
+		return dataInizioManutenzione != null && dataFineManutenzione != null
+				&& LocalDate.now().isAfter(dataInizioManutenzione) && LocalDate.now().isBefore(dataFineManutenzione);
+	}
+
+	// Metodo per verificare se il mezzo è attualmente in servizio
+	public boolean isInServizio() {
+		return !isInManutenzione();
+	}
+
+	// Metodo per aggiornare il conteggio dei giorni di servizio
+	public void aggiornaGiorniServizio() {
+		if (isInServizio()) {
+			giorniInServizio++;
+		}
+	}
+
+	// Metodo per aggiornare il conteggio dei giorni di manutenzione
+	public void aggiornaGiorniManutenzione() {
+		if (isInManutenzione()) {
+			giorniInManutenzione++;
+		}
+	}
+
+	// Metodo per ottenere il numero totale di giorni di servizio
+	public int getGiorniTotaleServizio() {
+		return giorniInServizio;
+	}
+
+	// Metodo per ottenere il numero totale di giorni di manutenzione
+	public int getGiorniTotaleManutenzione() {
+		return giorniInManutenzione;
+	}
+
+}
+
+	public void addTratta(Tratta tratta) {
+		if (tratta != null) {
+			tratta.setParcoMezzi(this);
+			tratte.add(tratta);
+		}
+	}
+
+	public void addBiglietto(Biglietti biglietto) {
+		if (biglietto != null) {
+			biglietto.setDataVidimazione(LocalDate.now());
+			biglietto.setVidimato(true);
+			biglietto.setPuntoVidimazione(this);
+			biglietti.add(biglietto);
+		}
+	}
+
+	@Override
 
 	public String toString() {
-		return "tipo mezzo:" + tipoMezzo + ", id:" + id + ", stato mezzi:" + statoMezzi + "Tratte: " + tratte.toString();
+		return "tipo mezzo:" + tipoMezzo + ", id:" + id + ", stato mezzi:" + statoMezzi + "Tratte: "
+				+ tratte.toString();
 	}
-    public void addTratta(Tratta tratta) {
-        if (tratta != null) {
-            tratta.setParcoMezzi(this);
-            tratte.add(tratta);
-        }
-    }
-    public void addBiglietto(Biglietti biglietto) {
-        if (biglietto != null) {
-        	biglietto.setDataVidimazione(LocalDate.now());
-        	biglietto.setVidimato(true);
-            biglietto.setPuntoVidimazione(this);
-            biglietti.add(biglietto);
-        }
-    }
-
 }
