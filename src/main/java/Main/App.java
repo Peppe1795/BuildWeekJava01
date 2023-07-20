@@ -26,6 +26,7 @@ import Entities.StatoDistributore;
 import Entities.StatoMezzi;
 import Entities.Tessera;
 import Entities.TipoMezzo;
+import Entities.Tratta;
 import Entities.Utente;
 import Util.JpaUtil;
 
@@ -48,7 +49,11 @@ public class App {
 		Tessera tessera = null;
 		String risposta = null;
 		LocalDate dataScadenza = null;
-
+Tratta trattaProva = new Tratta("Milano", "Napoli", 2.30);
+tr.save(trattaProva);
+		ParcoMezzi mezzoProva = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_MANUTENZIONE, LocalDate.now(), 50, trattaProva);
+		pm.save(mezzoProva);
+		pm.updateStatoMezzo(10l);
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
 		sd.save(admin);

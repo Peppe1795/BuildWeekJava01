@@ -20,7 +20,7 @@ import lombok.Setter;
 public class Tratta {
 	@Id
 	@GeneratedValue
-	private int id;
+	private Long id;
 	private String zonaDiPartenza;
 	private String capolinea;
 	private double tempoMedioDiPercorrenza;

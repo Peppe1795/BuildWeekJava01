@@ -57,6 +57,7 @@ public class ParcoMezziDAO {
 				found.setStatoMezzi(StatoMezzi.IN_MANUTENZIONE);
 			}
 			t.commit();
+			System.out.println(found);
 		}
 
 	}
