@@ -1,6 +1,7 @@
 package Entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ public class Utente {
 	@OneToOne(mappedBy = "utente")
 	private Tessera tessera;
 	@OneToMany(mappedBy = "utente")
-	private List<Biglietti> biglietti;
+	private List<Biglietti> biglietti = new ArrayList<>();
 	private String nome;
 	private String cognome;
 	private LocalDate dataDiNascita;

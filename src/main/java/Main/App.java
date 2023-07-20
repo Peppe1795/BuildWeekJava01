@@ -144,21 +144,16 @@ public class App {
 
 					System.out.println("Quanti biglietti vuoi?");
 					int numeroBiglietti = scanner.nextInt();
-					List<Biglietti> biglietti = new ArrayList<Biglietti>();
-					List<Biglietti> biglietti1 = new ArrayList<Biglietti>();
+					List<Biglietti> biglietti = new ArrayList<>();
+					List<Biglietti> biglietti1 = new ArrayList<>();
 					for (int i = 0; i < numeroBiglietti; i++) {
 
 						Biglietti biglietto = new Biglietti();
 
 						biglietto.setPuntoVendita(rivenditore);
 						bi.save(biglietto);
-
-						if (rivenditore.getBiglietti() == null) {
-							rivenditore.setBiglietti(new ArrayList<Biglietti>());
-						}
-
+						
 						biglietti = utente.getBiglietti();
-						System.out.println(biglietti1);
 						biglietti.add(biglietto);
 						utente.setBiglietti(biglietti);
 
