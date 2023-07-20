@@ -156,13 +156,14 @@ public class App {
 
 					for (int i = 0; i < numeroBiglietti; i++) {
 						Biglietti biglietto = new Biglietti();
-						bi.save(biglietto);
+						
 
 						System.out.println("ID Utente: " + utente.getId());
 						System.out.println("ID Rivenditore: " + rivenditore.getId());
 
 						utente.addBiglietto(biglietto);
 						rivenditore.addBiglietto(biglietto);
+						bi.save(biglietto);
 					}
 
 					System.out.println("Acquisto effettuato.");
@@ -393,7 +394,22 @@ public class App {
 
 			case 9:
 				if (risposta.equals("admin")) {
-
+                System.out.println("Inserisci un punto di partenza");
+                String puntoDiPartenza = scanner.next();
+                System.out.println("Inserisci un capolinea");
+                String capolinea = scanner.next();
+                System.out.println("Inserisci il tempo di percorrenza");
+                double tempoDiPercorrenza = Double.parseDouble(scanner.next());
+                Tratta tratta = new Tratta(puntoDiPartenza, capolinea, tempoDiPercorrenza);
+                tr.save(tratta);
+                System.out.println("Inserisci l'ID di un mezzo: ");
+				List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
+				for (ParcoMezzi mezzo1 : mezzi) {
+					System.out.println(mezzo1);
+				}
+				long idMezzo = Long.parseLong(scanner.next());
+				mezzo = pm.ricercaMezziDaId(idMezzo);
+				mezzo.addTratta(tratta);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
@@ -401,7 +417,14 @@ public class App {
 
 			case 10:
 				if (risposta.equals("admin")) {
-
+					System.out.println("Inserisci l'ID di un mezzo: ");
+					List<ParcoMezzi> mezzi = pm.visualizzaParcoMezzi();
+					for (ParcoMezzi mezzo1 : mezzi) {
+						System.out.println(mezzo1);
+					}
+					long idMezzo = Long.parseLong(scanner.next());
+					mezzo = pm.ricercaMezziDaId(idMezzo);
+					System.out.println(mezzo.getTratte());  
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
