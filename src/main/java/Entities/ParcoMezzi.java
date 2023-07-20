@@ -68,6 +68,8 @@ public class ParcoMezzi {
     }
     public void addBiglietto(Biglietti biglietto) {
         if (biglietto != null) {
+        	biglietto.setDataVidimazione(LocalDate.now());
+        	biglietto.setVidimato(true);
             biglietto.setPuntoVidimazione(this);
             biglietti.add(biglietto);
         }

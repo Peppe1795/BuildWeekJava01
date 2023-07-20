@@ -1,7 +1,6 @@
 package Main;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,6 +44,12 @@ public class App {
 		TrattaDAO tr = new TrattaDAO(em);
 		ParcoMezziDAO pm = new ParcoMezziDAO(em);
 
+		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(),50);
+		
+		Rivenditore ok = new Rivenditore();
+		
+		Distributore gg = new Distributore(StatoDistributore.ATTIVO);
+		
 		Rivenditore rivenditore = null;
 		Tessera tessera = null;
 		String risposta = null;
@@ -146,24 +151,17 @@ public class App {
 
 					System.out.println("Quanti biglietti vuoi?");
 					int numeroBiglietti = scanner.nextInt();
-					List<Biglietti> biglietti = new ArrayList<>();
-					List<Biglietti> biglietti1 = new ArrayList<>();
-					for (int i = 0; i < numeroBiglietti; i++) {
+					
+					for (int i = 0; i <= numeroBiglietti; i++) {
 
 						Biglietti biglietto = new Biglietti();
 
-						biglietto.setPuntoVendita(rivenditore);
 						bi.save(biglietto);
 
-						biglietti = utente.getBiglietti();
-						biglietti.add(biglietto);
-
-						biglietti1 = rivenditore.getBiglietti();
-						biglietti1.add(biglietto);
-
-					}
-					utente.setBiglietti(biglietti);
-					rivenditore.setBiglietti(biglietti);
+						utente.addBiglietto(biglietto);
+						rivenditore.addBiglietto(biglietto);
+					} 
+				
 					System.out.println("Acquisto effettuato.");
 
 				} else if (risposta2.equals("a")) {
@@ -217,12 +215,10 @@ public class App {
 					}
 
 					Abbonamenti abbonamento = new Abbonamenti(periodicita, dataScadenza, rivenditore, tessera);
-					abbonamento.setPuntoVendita(rivenditore);
+					
 					ab.save(abbonamento);
-					List<Abbonamenti> abbonamenti = new ArrayList<Abbonamenti>();
-					abbonamenti = rivenditore.getAbbonamenti();
-					abbonamenti.add(abbonamento);
-					rivenditore.setAbbonamenti(abbonamenti);
+					
+					rivenditore.addAbbonamento(abbonamento);
 					tessera.setAbbonamento(abbonamento);
 
 					System.out.println("Abbonamento effettuato");
@@ -266,12 +262,8 @@ public class App {
 						try {
 							if (biglietto.isVidimato() == false) {
 								System.out.println("Biglietto trovato. Puoi partire.");
-								biglietto.setVidimato(true);
-								biglietto.setDataVidimazione(LocalDate.now());
-								biglietto.setPuntoVidimazione(mezzo);
-								List<Biglietti> biglietti = mezzo.getBiglietti();
-								biglietti.add(biglietto);
-								mezzo.setBiglietti(biglietti);
+								
+								mezzo.addBiglietto(biglietto);
 							}
 						} catch (Exception e) {
 							System.out.println("Biglietto non valido");
