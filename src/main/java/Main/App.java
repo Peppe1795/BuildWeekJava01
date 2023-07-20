@@ -55,7 +55,9 @@ public class App {
 		Tessera tessera = null;
 		String risposta = null;
 		LocalDate dataScadenza = null;
-
+		Tratta tratta1 = new Tratta("Palermo", "Roma", 12.5);
+		tr.save(tratta1);
+		mezzop.addTratta(tratta1);
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
 		sd.save(admin);
@@ -228,7 +230,6 @@ public class App {
 					System.out.println("Abbonamento effettuato");
 				}
 				break;
-
 			case 2:
 				System.out.println("Mezzi in stazione: ");
 				List<ParcoMezzi> mezziPresenti = pm.visualizzaParcoMezzi();
@@ -254,7 +255,11 @@ public class App {
 				} else {
 					System.out.println("Sei salito su un tram");
 				}
-
+				System.out.println("Scegli una tratta inserendo l'ID: ");
+				System.out.println(mezzo.getTratte().toString());
+				long idTratta = Long.parseLong(scanner.next());
+				Tratta tratta2 = tr.ricercaTrattaDaId(idTratta);
+				System.out.println("Hai scelto la tratta: " + tratta2);
 				Boolean accessoServizioMezzo = false;
 				while (!accessoServizioMezzo) {
 					System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
@@ -265,7 +270,7 @@ public class App {
 						Biglietti biglietto = bi.ricercaBigliettoDaId(idBiglietto);
 						try {
 							if (biglietto.isVidimato() == false) {
-								System.out.println("Biglietto trovato. Puoi partire.");
+								System.out.println("Biglietto trovato. Puoi partire. Buon viaggio.");
 
 								mezzo.addBiglietto(biglietto);
 								break;

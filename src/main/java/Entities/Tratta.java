@@ -36,8 +36,8 @@ public class Tratta {
 
 	@Override
 	public String toString() {
-		return "Zona di partenza: " + zonaDiPartenza + ", capolinea: " + capolinea + ", tempo medio di percorrenza: "
-				+ tempoMedioDiPercorrenza;
+		return "ID: " + id + ", Zona di partenza: " + zonaDiPartenza + ", capolinea: " + capolinea
+				+ ", tempo medio di percorrenza: " + tempoMedioDiPercorrenza;
 	}
 
 }

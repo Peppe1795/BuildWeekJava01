@@ -1,15 +1,11 @@
 package DAO;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import Entities.Abbonamenti;
-import Entities.Rivenditore;
 import Entities.Tratta;
-import Entities.Utente;
 
 public class TrattaDAO {
 	private final EntityManager em;
@@ -29,8 +25,13 @@ public class TrattaDAO {
 		System.out.println("Elemento salvato correttamente");
 
 	}
+
 	public List<Tratta> ricercaTratteDaId(Long id) {
-		 return em.createQuery("SELECT r FROM Tratta r", Tratta.class)
-	             .getResultList();
-    }
+		return em.createQuery("SELECT r FROM Tratta r", Tratta.class).getResultList();
+	}
+
+	public Tratta ricercaTrattaDaId(Long id) {
+		return em.find(Tratta.class, id);
+	}
+
 }
