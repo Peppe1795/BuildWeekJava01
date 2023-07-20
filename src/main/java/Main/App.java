@@ -50,25 +50,6 @@ public class App {
 		String risposta = null;
 		LocalDate dataScadenza = null;
 
-		/*
-		 * Rivenditore rivenditore1 = new Rivenditore(); rb.save(rivenditore1);
-		 * 
-		 * Distributore distributore1 = new Distributore(StatoDistributore.ATTIVO);
-		 * Distributore distributore2 = new Distributore(StatoDistributore.DISATTIVO);
-		 * 
-		 * ds.save(distributore2); ds.save(distributore1);
-		 * 
-		 * Tratta tratta1 = new Tratta("Napoli", "Roma", 3.15); Tratta tratta2 = new
-		 * Tratta("Bergamo", "Milano", 2.45);
-		 * 
-		 * ParcoMezzi tram1 = new ParcoMezzi(TipoMezzo.TRAM, StatoMezzi.IN_SERVIZIO,
-		 * LocalDate.now(), 60, tratta1); ParcoMezzi autobus1 = new
-		 * ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 100,
-		 * tratta2);
-		 * 
-		 * tr.save(tratta1); tr.save(tratta2); pm.save(autobus1); pm.save(tram1);
-		 */
-
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
 		Utente utente = null;
@@ -110,219 +91,255 @@ public class App {
 				System.out.println("Scelta non valida. Riprova.");
 			}
 		}
-		if (risposta.equals("y") || risposta.equals("n")) {
-			int scelta = 0;
 
-			while (scelta != 3) {
-				System.out.println("\nScegli un'azione da eseguire:");
-				System.out.println("1. Vai al distributore o al venditore");
-				System.out.println("2. Sali su un mezzo");
-				System.out.println("3. Esci");
+		int scelta = 0;
 
-				scelta = scanner.nextInt();
+		while (scelta != 3) {
+			System.out.println("\nScegli un'azione da eseguire:");
+			System.out.println("1. Vai al distributore o al venditore");
+			System.out.println("2. Sali su un mezzo");
+			System.out.println("3. Esci");
+			if (risposta.equals("admin")) {
+				System.out.println("4: Recupera vendite biglietti");
+				System.out.println("5: Recupera vendite abbonamenti");
+				System.out.println("6: Cambia stato mezzo");
+				System.out.println("7: Recupera stati di un mezzo");
+				System.out.println("8: Recupera biglietti vidimati di un mezzo");
+				System.out.println("9: Aggiungi tratta ad un mezzo");
+				System.out.println("10: Recupera tratte di un mezzo");
+			}
 
-				switch (scelta) {
+			scelta = scanner.nextInt();
 
-				case 1:
-					Boolean sceltaVenditore = false;
-					while (!sceltaVenditore) {
-						System.out.println("Rivenditori o distributori nelle vicinanze:");
-						List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
-						for (Rivenditore rivenditori : AllRivenditori) {
-							System.out.println(rivenditori);
-						}
-						System.out.print("Inserisci ID: ");
-						long id = Long.parseLong(scanner.next());
-						rivenditore = rb.ricercaRivenditoreDaId(id);
-						if (rivenditore instanceof Distributore) {
-							Distributore distributore = (Distributore) rivenditore;
-							if (distributore.getStato() == StatoDistributore.DISATTIVO) {
-								System.out.println("Distributore non attivo. Vai da un altro venditore.");
+			switch (scelta) {
 
-							} else {
-								System.out.println("Hai scelto un distributore");
-								sceltaVenditore = true;
-							}
+			case 1:
+				Boolean sceltaVenditore = false;
+				while (!sceltaVenditore) {
+					System.out.println("Rivenditori o distributori nelle vicinanze:");
+					List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
+					for (Rivenditore rivenditori : AllRivenditori) {
+						System.out.println(rivenditori);
+					}
+					System.out.print("Inserisci ID: ");
+					long id = Long.parseLong(scanner.next());
+					rivenditore = rb.ricercaRivenditoreDaId(id);
+					if (rivenditore instanceof Distributore) {
+						Distributore distributore = (Distributore) rivenditore;
+						if (distributore.getStato() == StatoDistributore.DISATTIVO) {
+							System.out.println("Distributore non attivo. Vai da un altro venditore.");
+
 						} else {
-
-							System.out.println("Hai scelto un rivenditore");
+							System.out.println("Hai scelto un distributore");
 							sceltaVenditore = true;
 						}
-					}
-					System.out.println("Vuoi un biglietto o un abbonamento? (b/a)");
-					String risposta2 = scanner.next();
-					if (risposta2.equals("b")) {
-
-						System.out.println("Quanti biglietti vuoi?");
-						int numeroBiglietti = scanner.nextInt();
-						for (int i = 0; i < numeroBiglietti; i++) {
-
-							Biglietti biglietto = new Biglietti();
-
-							biglietto.setPuntoVendita(rivenditore);
-							bi.save(biglietto);
-							List<Biglietti> biglietti = utente.getBiglietti();
-							biglietti.add(biglietto);
-							utente.setBiglietti(biglietti);
-							List<Biglietti> biglietti1 = rivenditore.getBiglietti();
-							biglietti1.add(biglietto);
-							rivenditore.setBiglietti(biglietti);
-
-						}
-						System.out.println("Acquisto effettuato.");
-
-					} else if (risposta2.equals("a")) {
-						System.out.println("Per comprare un abbonamento devi possedere una tessera");
-						while (tessera == null) {
-							System.out.println("Hai gia una tessera? (y/n)");
-							String risposta3 = scanner.next();
-							if (risposta3.equals("y")) {
-
-								System.out.print("Inserisci l'ID della tessera: ");
-								long id = Long.parseLong(scanner.next());
-								Tessera tessera1 = ts.ricercaTesseraDaId(id);
-								if (tessera1 == null) {
-									System.out.println("Tessera non trovata");
-
-								} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
-									System.out.println("Tessera scaduta");
-									tessera1.setDataEmissione(LocalDate.now());
-									System.out.println("Rinnovo effettuato");
-									tessera = tessera1;
-								} else {
-									System.out.println("Tessera valida");
-									tessera = tessera1;
-								}
-							} else if (risposta3.equals("n")) {
-								tessera = new Tessera(utente);
-								ts.save(tessera);
-								System.out.println("Tessera creata correttamente.");
-							}
-
-						}
-						System.out.println("Che tipo di abbonamento vuoi? SETTIMANALE/MENSILE");
-						String periodicitaAbbonamento = scanner.next();
-
-						Periodicita periodicita = null;
-						while (periodicita == null) {
-							switch (periodicitaAbbonamento.toUpperCase()) {
-							case "SETTIMANALE":
-								periodicita = Periodicita.SETTIMANALE;
-								dataScadenza = LocalDate.now().plusDays(7);
-								break;
-							case "MENSILE":
-								periodicita = Periodicita.MENSILE;
-								dataScadenza = LocalDate.now().plusMonths(1);
-								break;
-							default:
-								System.out.println("Periodicità non valida.");
-								periodicita = null;
-								break;
-							}
-						}
-						System.out.println(dataScadenza);
-						System.out.println(periodicita);
-						Abbonamenti abbonamento = new Abbonamenti(periodicita, dataScadenza, rivenditore, tessera);
-						System.out.println(abbonamento);
-						abbonamento.setPuntoVendita(rivenditore);
-						ab.save(abbonamento);
-						// da aggiustare
-						List<Abbonamenti> abbonamenti = new ArrayList<Abbonamenti>();
-						abbonamenti = rivenditore.getAbbonamenti();
-						System.out.println("prima riga");
-						abbonamenti.add(abbonamento);
-						System.out.println("seconda riga");
-						rivenditore.setAbbonamenti(abbonamenti);
-						tessera.setAbbonamento(abbonamento);
-						System.out.println("Abbonamento effettuato");
-					}
-					break;
-
-				case 2:
-					System.out.println("Mezzi in stazione: ");
-					List<ParcoMezzi> mezziPresenti = pm.visualizzaParcoMezzi();
-					for (ParcoMezzi mezzi : mezziPresenti) {
-						System.out.println(mezzi);
-					}
-					System.out.print("Inserisci l'ID del mezzo: ");
-					long id = Long.parseLong(scanner.next());
-					ParcoMezzi mezzo = pm.ricercaMezziDaId(id);
-
-					if (mezzo == null) {
-						System.out.println("Mezzo non trovato. Torna alla lista dei mezzi.");
-						break;
-					}
-
-					if (mezzo.getStatoMezzi() == StatoMezzi.IN_MANUTENZIONE) {
-						System.out.println("Il mezzo è attualmente in manutenzione. Torna alla lista dei mezzi.");
-						break;
-					}
-
-					if (mezzo.getTipoMezzo() == TipoMezzo.AUTOBUS) {
-						System.out.println("Sei salito su un autobus");
 					} else {
-						System.out.println("Sei salito su un tram");
-					}
 
-					Boolean accessoServizioMezzo = false;
-					while (!accessoServizioMezzo) {
-						System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
-						String rispostaSulMezzo = scanner.next();
-						if (rispostaSulMezzo.equals("b")) {
-							System.out.print("Inserire l'ID del biglietto: ");
-							long idBiglietto = Long.parseLong(scanner.next());
-							Biglietti biglietto = bi.ricercaBigliettoDaId(idBiglietto);
-							try {
-								if (biglietto.isVidimato() == false) {
-									System.out.println("Biglietto trovato. Puoi partire.");
-									biglietto.setVidimato(true);
-									biglietto.setDataVidimazione(LocalDate.now());
-									biglietto.setPuntoVidimazione(mezzo);
-									List<Biglietti> biglietti = mezzo.getBiglietti();
-									biglietti.add(biglietto);
-									mezzo.setBiglietti(biglietti);
-								}
-							} catch (Exception e) {
-								System.out.println("Biglietto non valido");
-							}
-						} else if (rispostaSulMezzo.equals("a")) {
-							System.out.print("Inserire l'ID della Tessera: ");
-							long idTessera = Long.parseLong(scanner.next());
-							Tessera tesseraPerVerifica = ts.ricercaTesseraDaId(idTessera);
-							if (tesseraPerVerifica == null) {
+						System.out.println("Hai scelto un rivenditore");
+						sceltaVenditore = true;
+					}
+				}
+				System.out.println("Vuoi un biglietto o un abbonamento? (b/a)");
+				String risposta2 = scanner.next();
+				if (risposta2.equals("b")) {
+
+					System.out.println("Quanti biglietti vuoi?");
+					int numeroBiglietti = scanner.nextInt();
+					List<Biglietti> biglietti = new ArrayList<Biglietti>();
+					List<Biglietti> biglietti1 = new ArrayList<Biglietti>();
+					for (int i = 0; i < numeroBiglietti; i++) {
+
+						Biglietti biglietto = new Biglietti();
+						
+						biglietto.setPuntoVendita(rivenditore);
+						bi.save(biglietto);
+
+						biglietti = utente.getBiglietti();
+						System.out.println(biglietti1);
+						biglietti.add(biglietto);
+						utente.setBiglietti(biglietti);
+
+						biglietti1 = rivenditore.getBiglietti();
+						biglietti1.add(biglietto);
+						rivenditore.setBiglietti(biglietti);
+
+					}
+					System.out.println("Acquisto effettuato.");
+
+				} else if (risposta2.equals("a")) {
+					System.out.println("Per comprare un abbonamento devi possedere una tessera");
+					while (tessera == null) {
+						System.out.println("Hai gia una tessera? (y/n)");
+						String risposta3 = scanner.next();
+						if (risposta3.equals("y")) {
+
+							System.out.print("Inserisci l'ID della tessera: ");
+							long id = Long.parseLong(scanner.next());
+							Tessera tessera1 = ts.ricercaTesseraDaId(id);
+							if (tessera1 == null) {
 								System.out.println("Tessera non trovata");
-							} else if (tesseraPerVerifica.getDataScadenza().isBefore(LocalDate.now())) {
-								System.out.println(
-										"Tessera scaduta, usare un biglieto o rinnovare la tessera da un rivenditore.");
+
+							} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
+								System.out.println("Tessera scaduta");
+								tessera1.setDataEmissione(LocalDate.now());
+								System.out.println("Rinnovo effettuato");
+								tessera = tessera1;
 							} else {
-								Abbonamenti abbonamento = tesseraPerVerifica.getAbbonamento();
-								if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
-									System.out.println(
-											"Abbonamento scaduto, usare un biglietto o fare un altro abbonamento da un rivenditore.");
-								} else if (abbonamento == null) {
-									System.out.println("Nessun abbonamento trovato");
-								} else {
-									System.out.println("Ciao");
-									accessoServizioMezzo = true;
-								}
+								System.out.println("Tessera valida");
+								tessera = tessera1;
 							}
-						} else if (rispostaSulMezzo.equals("e")) {
-							System.out.println("Sei sceso dal mezzo.");
+						} else if (risposta3.equals("n")) {
+							tessera = new Tessera(utente);
+							ts.save(tessera);
+							System.out.println("Tessera creata correttamente.");
+						}
+
+					}
+					System.out.println("Che tipo di abbonamento vuoi? SETTIMANALE/MENSILE");
+					String periodicitaAbbonamento = scanner.next();
+
+					Periodicita periodicita = null;
+					while (periodicita == null) {
+						switch (periodicitaAbbonamento.toUpperCase()) {
+						case "SETTIMANALE":
+							periodicita = Periodicita.SETTIMANALE;
+							dataScadenza = LocalDate.now().plusDays(7);
 							break;
-						} else {
-							System.out.println("Scelta non valida");
+						case "MENSILE":
+							periodicita = Periodicita.MENSILE;
+							dataScadenza = LocalDate.now().plusMonths(1);
+							break;
+						default:
+							System.out.println("Periodicità non valida.");
+							periodicita = null;
+							break;
 						}
 					}
-					break;
-				case 3:
-					System.out.println("Uscita...");
-					scanner.close();
-					em.close();
+					System.out.println(dataScadenza);
+					System.out.println(periodicita);
+					Abbonamenti abbonamento = new Abbonamenti(periodicita, dataScadenza, rivenditore, tessera);
+					System.out.println(abbonamento);
+					abbonamento.setPuntoVendita(rivenditore);
+					ab.save(abbonamento);
+					// da aggiustare
+					List<Abbonamenti> abbonamenti = new ArrayList<Abbonamenti>();
+					abbonamenti = rivenditore.getAbbonamenti();
+					System.out.println("prima riga");
+					abbonamenti.add(abbonamento);
+					System.out.println("seconda riga");
+					rivenditore.setAbbonamenti(abbonamenti);
+					tessera.setAbbonamento(abbonamento);
+					System.out.println("Abbonamento effettuato");
+				}
+				break;
 
+			case 2:
+				System.out.println("Mezzi in stazione: ");
+				List<ParcoMezzi> mezziPresenti = pm.visualizzaParcoMezzi();
+				for (ParcoMezzi mezzi : mezziPresenti) {
+					System.out.println(mezzi);
+				}
+				System.out.print("Inserisci l'ID del mezzo: ");
+				long id = Long.parseLong(scanner.next());
+				ParcoMezzi mezzo = pm.ricercaMezziDaId(id);
+
+				if (mezzo == null) {
+					System.out.println("Mezzo non trovato. Torna alla lista dei mezzi.");
 					break;
 				}
+
+				if (mezzo.getStatoMezzi() == StatoMezzi.IN_MANUTENZIONE) {
+					System.out.println("Il mezzo è attualmente in manutenzione. Torna alla lista dei mezzi.");
+					break;
+				}
+
+				if (mezzo.getTipoMezzo() == TipoMezzo.AUTOBUS) {
+					System.out.println("Sei salito su un autobus");
+				} else {
+					System.out.println("Sei salito su un tram");
+				}
+
+				Boolean accessoServizioMezzo = false;
+				while (!accessoServizioMezzo) {
+					System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
+					String rispostaSulMezzo = scanner.next();
+					if (rispostaSulMezzo.equals("b")) {
+						System.out.print("Inserire l'ID del biglietto: ");
+						long idBiglietto = Long.parseLong(scanner.next());
+						Biglietti biglietto = bi.ricercaBigliettoDaId(idBiglietto);
+						try {
+							if (biglietto.isVidimato() == false) {
+								System.out.println("Biglietto trovato. Puoi partire.");
+								biglietto.setVidimato(true);
+								biglietto.setDataVidimazione(LocalDate.now());
+								biglietto.setPuntoVidimazione(mezzo);
+								List<Biglietti> biglietti = mezzo.getBiglietti();
+								biglietti.add(biglietto);
+								mezzo.setBiglietti(biglietti);
+							}
+						} catch (Exception e) {
+							System.out.println("Biglietto non valido");
+						}
+					} else if (rispostaSulMezzo.equals("a")) {
+						System.out.print("Inserire l'ID della Tessera: ");
+						long idTessera = Long.parseLong(scanner.next());
+						Tessera tesseraPerVerifica = ts.ricercaTesseraDaId(idTessera);
+						if (tesseraPerVerifica == null) {
+							System.out.println("Tessera non trovata");
+						} else if (tesseraPerVerifica.getDataScadenza().isBefore(LocalDate.now())) {
+							System.out.println(
+									"Tessera scaduta, usare un biglieto o rinnovare la tessera da un rivenditore.");
+						} else {
+							Abbonamenti abbonamento = tesseraPerVerifica.getAbbonamento();
+							if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
+								System.out.println(
+										"Abbonamento scaduto, usare un biglietto o fare un altro abbonamento da un rivenditore.");
+							} else if (abbonamento == null) {
+								System.out.println("Nessun abbonamento trovato");
+							} else {
+								System.out.println("Ciao");
+								accessoServizioMezzo = true;
+							}
+						}
+					} else if (rispostaSulMezzo.equals("e")) {
+						System.out.println("Sei sceso dal mezzo.");
+						break;
+					} else {
+						System.out.println("Scelta non valida");
+					}
+				}
+				break;
+			case 3:
+				System.out.println("Uscita...");
+				scanner.close();
+				em.close();
+
+				break;
+
+			case 4:
+				if (risposta.equals("admin")) {
+
+					System.out.println("Inserisci l'ID di un punto vendita: ");
+					List<Rivenditore> AllRivenditori = rb.visualizzaRivenditori();
+					for (Rivenditore rivenditori : AllRivenditori) {
+						System.out.println(rivenditori);
+					}
+					long idPuntoVendita = Long.parseLong(scanner.next());
+					rivenditore = rb.ricercaRivenditoreDaId(idPuntoVendita);
+					List<Biglietti> biglietti = rivenditore.getBiglietti();
+					if (biglietti.size() > 0) {
+						for (Biglietti biglietto : biglietti) {
+							System.out.println(biglietto);
+						}
+					} else {
+						System.out.println("Questo venditore non ha venduto biglietti");
+					}
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+
 			}
-		} else if (risposta.equals("admin")) {
 		}
+
 	}
 }

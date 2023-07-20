@@ -37,4 +37,11 @@ public class Biglietti {
 		this.puntoVendita = puntoVendita;
 	}
 
+	@Override
+	public String toString() {
+		return "Biglietto id: " + id + ", dataEmissione: " + dataEmissione + ", dataVidimazione: " + dataVidimazione
+				+ ", vidimato: " + vidimato + ", puntoVendita: " + puntoVendita + ", utente: " + utente
+				+ ", puntoVidimazione: " + puntoVidimazione;
+	}
+
 }
