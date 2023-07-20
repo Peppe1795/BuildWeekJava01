@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,6 +26,7 @@ public class Tratta {
 	private String capolinea;
 	private double tempoMedioDiPercorrenza;
 	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "tratta_id")
 	private ParcoMezzi parcoMezzi;
 
@@ -32,6 +34,12 @@ public class Tratta {
 		this.zonaDiPartenza = zonaDiPartenza;
 		this.capolinea = capolinea;
 		this.tempoMedioDiPercorrenza = tempoMedioDiPercorrenza;
+	}
+
+	@Override
+	public String toString() {
+		return "Zona di partenza: " + zonaDiPartenza + ", capolinea: " + capolinea + ", tempo medio di percorrenza: "
+				+ tempoMedioDiPercorrenza;
 	}
 
 }
