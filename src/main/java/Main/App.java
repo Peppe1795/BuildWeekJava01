@@ -26,7 +26,6 @@ import Entities.StatoDistributore;
 import Entities.StatoMezzi;
 import Entities.Tessera;
 import Entities.TipoMezzo;
-import Entities.Tratta;
 import Entities.Utente;
 import Util.JpaUtil;
 
@@ -150,9 +149,13 @@ public class App {
 					for (int i = 0; i < numeroBiglietti; i++) {
 
 						Biglietti biglietto = new Biglietti();
-						
+
 						biglietto.setPuntoVendita(rivenditore);
 						bi.save(biglietto);
+
+						if (rivenditore.getBiglietti() == null) {
+							rivenditore.setBiglietti(new ArrayList<Biglietti>());
+						}
 
 						biglietti = utente.getBiglietti();
 						System.out.println(biglietti1);
