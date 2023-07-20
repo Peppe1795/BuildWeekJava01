@@ -46,11 +46,11 @@ public class App {
 		ParcoMezziDAO pm = new ParcoMezziDAO(em);
 		TrattaService trattaService = new TrattaService();
 		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
-		//pm.save(mezzop);
+		pm.save(mezzop);
 		Rivenditore ok = new Rivenditore();
-		//rb.save(ok);
+		rb.save(ok);
 		Distributore gg = new Distributore(StatoDistributore.ATTIVO);
-		//rb.save(gg);
+		rb.save(gg);
 		Rivenditore rivenditore = null;
 		Tessera tessera = null;
 		String risposta = null;
@@ -268,6 +268,7 @@ public class App {
 								System.out.println("Biglietto trovato. Puoi partire.");
 
 								mezzo.addBiglietto(biglietto);
+								break;
 							}
 						} catch (Exception e) {
 							System.out.println("Biglietto non valido");
@@ -461,8 +462,8 @@ public class App {
 					mezzo = pm.ricercaMezziDaId(idMezzo);
 					System.out.println(mezzo.getTratte());
 					List<Tratta> tratte = mezzo.getTratte();
-						    List<List<Tratta>> tratteRaggruppate = trattaService.raggruppaTratte(tratte);
-						    trattaService.calcolaTempoPercorrenzaTotalePerLista(tratteRaggruppate);
+					List<List<Tratta>> tratteRaggruppate = trattaService.raggruppaTratte(tratte);
+					trattaService.calcolaTempoPercorrenzaTotalePerLista(tratteRaggruppate);
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
 				}
