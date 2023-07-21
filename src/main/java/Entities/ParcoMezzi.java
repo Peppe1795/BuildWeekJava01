@@ -108,8 +108,6 @@ public class ParcoMezzi {
 		return giorniInManutenzione;
 	}
 
-
-
 	public void addTratta(Tratta tratta) {
 		if (tratta != null) {
 			tratta.setParcoMezzi(this);
@@ -124,6 +122,16 @@ public class ParcoMezzi {
 			biglietto.setPuntoVidimazione(this);
 			biglietti.add(biglietto);
 		}
+	}
+
+	public Periodo getPeriodoServizio() {
+		LocalDate dataInizio = inizioStatoMezzo;
+		LocalDate dataFine = dataInizioManutenzione != null ? dataInizioManutenzione.minusDays(1) : LocalDate.now();
+		return new Periodo(dataInizio, dataFine);
+	}
+
+	public Periodo getPeriodoManutenzione() {
+		return new Periodo(dataInizioManutenzione, dataFineManutenzione);
 	}
 
 	@Override

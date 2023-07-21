@@ -22,6 +22,7 @@ import Entities.Biglietti;
 import Entities.Distributore;
 import Entities.ParcoMezzi;
 import Entities.Periodicita;
+import Entities.Periodo;
 import Entities.Rivenditore;
 import Entities.StatoDistributore;
 import Entities.StatoMezzi;
@@ -47,6 +48,15 @@ public class App {
 		ParcoMezziDAO pm = new ParcoMezziDAO(em);
 		TrattaService trattaService = new TrattaService();
 		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
+		ParcoMezzi mezzop2 = new ParcoMezzi(TipoMezzo.TRAM, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
+		ParcoMezzi mezzop3 = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_MANUTENZIONE, LocalDate.now(), 50);
+		pm.save(mezzop);
+		LocalDate dataInizioManutenzioneMezzoP = LocalDate.of(2023, 7, 20);
+		LocalDate dataFineManutenzioneMezzoP = LocalDate.of(2023, 7, 25);
+		mezzop.avviaManutenzione(dataInizioManutenzioneMezzoP, dataFineManutenzioneMezzoP);
+		LocalDate dataInizioManutenzioneMezzoTram = LocalDate.of(2023, 7, 18);
+		LocalDate dataFineManutenzioneMezzoTram = LocalDate.of(2023, 7, 22);
+		mezzop2.avviaManutenzione(dataInizioManutenzioneMezzoTram, dataFineManutenzioneMezzoTram);
 		pm.save(mezzop);
 		Rivenditore ok = new Rivenditore();
 		rb.save(ok);
@@ -120,6 +130,7 @@ public class App {
 				System.out.println("11: Recupera biglietti di una determinata data");
 				System.out.println("12: Recupera abbonamenti di una determinata data");
 				System.out.println("13: Verifica Validità abbonamento inserendo l'ID utente");
+				System.out.println("14: Verifica periodi di servizio dei mezzi di trasporto");
 			}
 
 			scelta = scanner.nextInt();
@@ -555,6 +566,27 @@ public class App {
 					}
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+			case 14:
+				System.out.println("Inserisci l'ID del mezzo: ");
+				long idMezzo = Long.parseLong(scanner.next());
+
+				ParcoMezzi mezzoScelto = pm.ricercaMezziDaId(idMezzo);
+
+				if (mezzoScelto == null) {
+					System.out.println("Mezzo non trovato.");
+				} else {
+					System.out.println("Hai scelto il mezzo: ");
+					System.out.println(mezzoScelto);
+
+					Periodo periodoServizio = mezzoScelto.getPeriodoServizio();
+					Periodo periodoManutenzione = mezzoScelto.getPeriodoManutenzione();
+
+					System.out.println("Periodo di servizio: " + periodoServizio.getDataInizio() + " - "
+							+ periodoServizio.getDataFine());
+					System.out.println("Periodo di manutenzione: " + periodoManutenzione.getDataInizio() + " - "
+							+ periodoManutenzione.getDataFine());
 				}
 				break;
 			}
