@@ -1,11 +1,14 @@
 package Entities;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -29,13 +32,23 @@ public class Tessera {
 	@OneToOne
 	@JoinColumn(name = "utente_id")
 	private Utente utente;
-	@OneToOne(mappedBy = "tessera")
-	private Abbonamenti abbonamento;
+
+	@OneToMany(mappedBy = "tessera")
+	private List<Abbonamenti> abbonamenti;
+
 	private LocalDate dataEmissione = LocalDate.now();
 	private LocalDate dataScadenza = dataEmissione.plusYears(1);
 
 	public Tessera(Utente utente) {
 		this.utente = utente;
+	}
+
+	public List<Abbonamenti> getAbbonamenti() {
+		return abbonamenti;
+	}
+
+	public void setAbbonamenti(List<Abbonamenti> abbonamenti) {
+		this.abbonamenti = abbonamenti;
 	}
 
 	@Override

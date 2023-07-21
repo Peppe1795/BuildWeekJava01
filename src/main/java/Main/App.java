@@ -227,7 +227,7 @@ public class App {
 					ab.save(abbonamento);
 
 					rivenditore.addAbbonamento(abbonamento);
-					tessera.setAbbonamento(abbonamento);
+					tessera.setAbbonamenti(Collections.singletonList(abbonamento));
 
 					System.out.println("Abbonamento effettuato");
 				}
@@ -257,11 +257,13 @@ public class App {
 				} else {
 					System.out.println("Sei salito su un tram");
 				}
+
 				System.out.println("Scegli una tratta inserendo l'ID: ");
 				System.out.println(mezzo.getTratte().toString());
 				long idTratta = Long.parseLong(scanner.next());
 				Tratta tratta2 = tr.ricercaTrattaDaId(idTratta);
 				System.out.println("Hai scelto la tratta: " + tratta2);
+
 				Boolean accessoServizioMezzo = false;
 				while (!accessoServizioMezzo) {
 					System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
@@ -301,15 +303,20 @@ public class App {
 							System.out.println(
 									"Tessera scaduta, usare un biglieto o rinnovare la tessera da un rivenditore.");
 						} else {
-							Abbonamenti abbonamento = tesseraPerVerifica.getAbbonamento();
-							if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
-								System.out.println(
-										"Abbonamento scaduto, usare un biglietto o fare un altro abbonamento da un rivenditore.");
-							} else if (abbonamento == null) {
+							List<Abbonamenti> abbonamenti = tesseraPerVerifica.getAbbonamenti();
+							if (abbonamenti.isEmpty()) {
 								System.out.println("Nessun abbonamento trovato");
 							} else {
-								System.out.println("Ciao");
-								accessoServizioMezzo = true;
+								for (Abbonamenti abbonamento : abbonamenti) {
+									System.out.println("Abbonamento: " + abbonamento);
+									if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
+										System.out.println(
+												"Abbonamento scaduto, usare un biglietto o fare un altro abbonamento da un rivenditore.");
+									} else {
+										System.out.println("Abbonamento valido. Puoi usufruire dei servizi.");
+										// Esegui altre operazioni specifiche sull'abbonamento valido, se necessario.
+									}
+								}
 							}
 						}
 					} else if (rispostaSulMezzo.equals("e")) {
@@ -530,13 +537,19 @@ public class App {
 						} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
 							System.out.println("La tessera dell'utente con ID " + idUtente + " è scaduta");
 						} else {
-							Abbonamenti abbonamento = tessera1.getAbbonamento();
-							if (abbonamento == null) {
+							List<Abbonamenti> abbonamenti = tessera1.getAbbonamenti();
+							if (abbonamenti.isEmpty()) {
 								System.out.println("L'utente con ID " + idUtente + " non ha un abbonamento");
-							} else if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
-								System.out.println("L'abbonamento dell'utente con ID " + idUtente + " è scaduto");
 							} else {
-								System.out.println("L'abbonamento dell'utente con ID " + idUtente + " è ancora valido");
+								for (Abbonamenti abbonamento : abbonamenti) {
+									if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
+										System.out
+												.println("L'abbonamento dell'utente con ID " + idUtente + " è scaduto");
+									} else {
+										System.out.println(
+												"L'abbonamento dell'utente con ID " + idUtente + " è ancora valido");
+									}
+								}
 							}
 						}
 					}

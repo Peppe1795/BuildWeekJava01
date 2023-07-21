@@ -7,8 +7,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -25,16 +25,21 @@ public class Abbonamenti {
 	@Id
 	@GeneratedValue
 	private Long id;
+
 	@Enumerated(EnumType.STRING)
 	private Periodicita periodicita;
+
 	private LocalDate dataEmissione = LocalDate.now();
 	private LocalDate dataScadenza;
+
 	@ManyToOne
+	@JoinColumn(name = "punto_vendita_id")
 	private Rivenditore puntoVendita;
-	@OneToOne
+
+	@ManyToOne
 	private Tessera tessera;
 
-	public Abbonamenti(Periodicita periodicita,LocalDate dataScadenza ,Rivenditore puntoVendita, Tessera tessera) {
+	public Abbonamenti(Periodicita periodicita, LocalDate dataScadenza, Rivenditore puntoVendita, Tessera tessera) {
 		this.periodicita = periodicita;
 		this.dataScadenza = dataScadenza;
 		this.puntoVendita = puntoVendita;
