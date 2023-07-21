@@ -589,6 +589,47 @@ public class App {
 							+ periodoManutenzione.getDataFine());
 				}
 				break;
+			case 15:
+				if (risposta.equals("admin")) {
+					System.out.println("Inserisci l'ID del mezzo: ");
+					long idMezzo1 = Long.parseLong(scanner.next());
+
+					ParcoMezzi mezzoScelto1 = pm.ricercaMezziDaId(idMezzo1);
+
+					if (mezzoScelto1 == null) {
+						System.out.println("Mezzo non trovato.");
+					} else {
+						System.out.println("Hai scelto il mezzo: ");
+						System.out.println(mezzoScelto1);
+
+						List<Tratta> tratteMezzo = mezzoScelto1.getTratte();
+
+						if (tratteMezzo.isEmpty()) {
+							System.out.println("Questo mezzo non ha ancora percorso alcuna tratta.");
+						} else {
+							TrattaService trattaService1 = new TrattaService();
+							List<List<Tratta>> tratteRaggruppate = trattaService1.raggruppaTratte(tratteMezzo);
+
+							if (tratteRaggruppate.isEmpty()) {
+								System.out.println("Nessuna tratta disponibile per questo mezzo.");
+							} else {
+								trattaService1.calcolaTempoPercorrenzaTotalePerLista(tratteRaggruppate);
+								for (List<Tratta> listaTratte : tratteRaggruppate) {
+									Tratta trattaDiRiferimento = listaTratte.get(0);
+									int numeroPercorsiTratta = pm.getNumeroPercorsiTratta(mezzoScelto1,
+											trattaDiRiferimento);
+									String chiave = trattaDiRiferimento.getZonaDiPartenza() + "-"
+											+ trattaDiRiferimento.getCapolinea();
+									System.out.println("Numero di volte che il mezzo ha percorso la tratta " + chiave
+											+ ": " + numeroPercorsiTratta);
+								}
+							}
+						}
+					}
+				} else {
+					System.out.println("Non esiste questo mezzo.");
+				}
+				break;
 			}
 		}
 

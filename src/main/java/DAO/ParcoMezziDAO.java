@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import Entities.ParcoMezzi;
 import Entities.StatoMezzi;
+import Entities.Tratta;
 
 public class ParcoMezziDAO {
 	private final EntityManager em;
@@ -26,15 +28,14 @@ public class ParcoMezziDAO {
 		System.out.println("Elemento salvato correttamente");
 
 	}
-	
+
 	public void update(ParcoMezzi parcoMezzi) {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 
-        
-        em.merge(parcoMezzi);
+		em.merge(parcoMezzi);
 
-        t.commit();
+		t.commit();
 	}
 
 	public List<ParcoMezzi> visualizzaParcoMezzi() {
@@ -70,5 +71,34 @@ public class ParcoMezziDAO {
 			System.out.println(found);
 		}
 
+	}
+
+	public int getNumeroPercorsiTratta(ParcoMezzi mezzo, Tratta tratta) {
+
+		TypedQuery<Long> query = em.createQuery(
+				"SELECT COUNT(t) FROM Tratta t JOIN t.parcoMezzi m WHERE m.id = :mezzoId AND t.id = :trattaId",
+				Long.class);
+		query.setParameter("mezzoId", mezzo.getId());
+		query.setParameter("trattaId", tratta.getId());
+
+		Long result = query.getSingleResult();
+		return result.intValue();
+	}
+
+	public double getTempoMedioPercorrenzaTratta(ParcoMezzi mezzo, Tratta tratta) {
+		;
+
+		TypedQuery<Double> query = em.createQuery(
+				"SELECT AVG(t.tempoPercorrenza) FROM Tratta t JOIN t.parcoMezzi m WHERE m.id = :mezzoId AND t.id = :trattaId",
+				Double.class);
+		query.setParameter("mezzoId", mezzo.getId());
+		query.setParameter("trattaId", tratta.getId());
+
+		Double result = query.getSingleResult();
+		if (result != null) {
+			return result;
+		} else {
+			return 0.0;
+		}
 	}
 }
