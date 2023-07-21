@@ -50,7 +50,7 @@ public class App {
 		ParcoMezzi mezzop = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
 		ParcoMezzi mezzop2 = new ParcoMezzi(TipoMezzo.TRAM, StatoMezzi.IN_SERVIZIO, LocalDate.now(), 50);
 		ParcoMezzi mezzop3 = new ParcoMezzi(TipoMezzo.AUTOBUS, StatoMezzi.IN_MANUTENZIONE, LocalDate.now(), 50);
-		pm.save(mezzop);
+
 		LocalDate dataInizioManutenzioneMezzoP = LocalDate.of(2023, 7, 20);
 		LocalDate dataFineManutenzioneMezzoP = LocalDate.of(2023, 7, 25);
 		mezzop.avviaManutenzione(dataInizioManutenzioneMezzoP, dataFineManutenzioneMezzoP);
@@ -58,6 +58,8 @@ public class App {
 		LocalDate dataFineManutenzioneMezzoTram = LocalDate.of(2023, 7, 22);
 		mezzop2.avviaManutenzione(dataInizioManutenzioneMezzoTram, dataFineManutenzioneMezzoTram);
 		pm.save(mezzop);
+		pm.save(mezzop2);
+		pm.save(mezzop3);
 		Rivenditore ok = new Rivenditore();
 		rb.save(ok);
 		Distributore gg = new Distributore(StatoDistributore.ATTIVO);
@@ -67,8 +69,14 @@ public class App {
 		String risposta = null;
 		LocalDate dataScadenza = null;
 		Tratta tratta1 = new Tratta("Palermo", "Roma", 12.5);
+		Tratta tratta4 = new Tratta("Milano", "Bologna", 1.5);
+		Tratta tratta3 = new Tratta("Genova", "Napoli", 9.2);
 		tr.save(tratta1);
 		mezzop.addTratta(tratta1);
+		tr.save(tratta4);
+		mezzop2.addTratta(tratta4);
+		tr.save(tratta3);
+		mezzop3.addTratta(tratta3);
 		Scanner scanner = new Scanner(System.in);
 		Utente admin = new Utente("Admin", "Admin", LocalDate.now());
 		sd.save(admin);
@@ -131,6 +139,7 @@ public class App {
 				System.out.println("12: Recupera abbonamenti di una determinata data");
 				System.out.println("13: Verifica Validità abbonamento inserendo l'ID utente");
 				System.out.println("14: Verifica periodi di servizio dei mezzi di trasporto");
+				System.out.println("15: Verifica numero di volte che un mezzo percorre una tratta");
 			}
 
 			scelta = scanner.nextInt();
