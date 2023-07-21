@@ -492,10 +492,8 @@ public class App {
 					String dataS = scanner.next();
 
 					LocalDate dataRicerca = LocalDate.parse(dataS);
-					List<Biglietti> bigliettiDaData = bi.ricercaBigliettiPerData(dataRicerca);
-					for (Biglietti biglietto : bigliettiDaData) {
-						System.out.println(biglietto);
-					}
+					int bigliettiDaData = bi.getNumeroBigliettiPerData(dataRicerca);
+					System.out.println("il numero di biglietti è: " + bigliettiDaData);
 
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
