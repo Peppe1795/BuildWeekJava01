@@ -33,11 +33,6 @@ public class BigliettiDAO {
 		return em.find(Biglietti.class, id);
 	}
 
-	public List<Biglietti> ricercaBigliettiPerData(LocalDate data) {
-		return em.createQuery("SELECT p FROM Biglietti p WHERE p.dataEmissione = :dataemissione", Biglietti.class)
-				.setParameter("dataemissione", data).getResultList();
-	}
-
 	public void vidimazione(List<Long> listaId) {
 		em.getTransaction().begin();
 
@@ -55,19 +50,21 @@ public class BigliettiDAO {
 		em.getTransaction().commit();
 	}
 
-	public List<Long> getBigliettiByUtente(Utente utente) {
-		TypedQuery<Long> query = em.createQuery("SELECT b.id FROM Biglietti b WHERE b.utente = :utente", Long.class);
+	public List<Biglietti> ricercaBigliettiPerData(LocalDate data) {
+		return em.createQuery("SELECT b FROM Biglietti b WHERE b.dataEmissione = :dataEmissione", Biglietti.class)
+				.setParameter("dataEmissione", data).getResultList();
+	}
+
+	public int getNumeroBigliettiPerData(LocalDate data) {
+		List<Biglietti> bigliettiPerData = ricercaBigliettiPerData(data);
+		return bigliettiPerData.size();
+	}
+
+	public List<Biglietti> getBigliettiByUtente(Utente utente) {
+		TypedQuery<Biglietti> query = em.createQuery("SELECT b FROM Biglietti b WHERE b.utente = :utente",
+				Biglietti.class);
 		query.setParameter("utente", utente);
 		return query.getResultList();
 	}
-	
-	public int getNumeroBigliettiPerData(LocalDate data) {
-	    List<Biglietti> bigliettiPerData = ricercaBigliettiPerData(data);
-	    return bigliettiPerData.size();
-	}
-
-
-	
-
 
 }

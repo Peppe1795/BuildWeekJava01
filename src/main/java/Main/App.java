@@ -267,7 +267,7 @@ public class App {
 					String rispostaSulMezzo = scanner.next();
 					if (rispostaSulMezzo.equals("b")) {
 						System.out.println("Biglietti a disposizione: ");
-						List<Long> listaBigliettiId = bi.getBigliettiByUtente(utente);
+						List<Biglietti> listaBigliettiId = bi.getBigliettiByUtente(utente);
 						listaBigliettiId.forEach(e -> System.out.println("id: " + e));
 
 						System.out.print("Inserire l'ID del biglietto: ");
@@ -492,7 +492,7 @@ public class App {
 					String dataS = scanner.next();
 
 					LocalDate dataRicerca = LocalDate.parse(dataS);
-					int bigliettiDaData = bi.ricercaBigliettiPerData(dataRicerca);
+					int bigliettiDaData = bi.getNumeroBigliettiPerData(dataRicerca);
 					System.out.println("il numero di biglietti è: " + bigliettiDaData);
 
 				} else {
