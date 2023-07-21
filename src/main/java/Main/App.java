@@ -1,6 +1,7 @@
 package Main;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -265,18 +266,29 @@ public class App {
 					System.out.println("Usare un biglietto o un abbonamento oppure esci  (b/a/e)");
 					String rispostaSulMezzo = scanner.next();
 					if (rispostaSulMezzo.equals("b")) {
+						System.out.println("Biglietti a disposizione: ");
+						List<Long> listaBigliettiId = bi.getBigliettiByUtente(utente);
+						listaBigliettiId.forEach(e -> System.out.println("id: " + e));
+
 						System.out.print("Inserire l'ID del biglietto: ");
 						long idBiglietto = Long.parseLong(scanner.next());
 						Biglietti biglietto = bi.ricercaBigliettoDaId(idBiglietto);
-						try {
-							if (biglietto.isVidimato() == false) {
-								System.out.println("Biglietto trovato. Puoi partire. Buon viaggio.");
 
+						if (biglietto != null && !biglietto.isVidimato()) {
+							System.out.println(
+									"Per salire sul mezzo devi vidimare il biglietto, seleziona y per continuare");
+							String risposta5 = scanner.next();
+
+							if (risposta5.equals("y")) {
+								bi.vidimazione(Collections.singletonList(idBiglietto));
+								System.out.println("Biglietto trovato. Puoi partire. Buon viaggio.");
 								mezzo.addBiglietto(biglietto);
-								break;
 							}
-						} catch (Exception e) {
-							System.out.println("Biglietto non valido");
+						} else if (biglietto == null) {
+							System.out.println("Biglietto non trovato");
+						} else if (biglietto.isVidimato()) {
+							System.out.println(
+									"Il biglietto con ID " + idBiglietto + " è già stato vidimato e non è più valido.");
 						}
 					} else if (rispostaSulMezzo.equals("a")) {
 						System.out.print("Inserire l'ID della Tessera: ");
