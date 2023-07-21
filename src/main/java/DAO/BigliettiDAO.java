@@ -60,4 +60,14 @@ public class BigliettiDAO {
 		query.setParameter("utente", utente);
 		return query.getResultList();
 	}
+	
+	public int getNumeroBigliettiPerData(LocalDate data) {
+	    List<Biglietti> bigliettiPerData = ricercaBigliettiPerData(data);
+	    return bigliettiPerData.size();
+	}
+
+
+	
+
+
 }

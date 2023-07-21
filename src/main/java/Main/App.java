@@ -492,7 +492,7 @@ public class App {
 					String dataS = scanner.next();
 
 					LocalDate dataRicerca = LocalDate.parse(dataS);
-					int bigliettiDaData = bi.getNumeroBigliettiPerData(dataRicerca);
+					int bigliettiDaData = bi.ricercaBigliettiPerData(dataRicerca);
 					System.out.println("il numero di biglietti è: " + bigliettiDaData);
 
 				} else {
