@@ -22,6 +22,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Abbonamenti {
 
+	@Override
+	public String toString() {
+		return "Abbonamenti [id=" + id + ", periodicita=" + periodicita + ", dataEmissione=" + dataEmissione
+				+ ", dataScadenza=" + dataScadenza + ", puntoVendita=" + puntoVendita + ", tessera=" + tessera + "]";
+	}
+
 	@Id
 	@GeneratedValue
 	private Long id;

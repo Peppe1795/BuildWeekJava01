@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import Entities.Abbonamenti;
-import Entities.Biglietti;
 
 public class AbbonamentoDAO {
 	private final EntityManager em;
@@ -27,14 +26,13 @@ public class AbbonamentoDAO {
 		System.out.println("Elemento salvato correttamente");
 
 	}
-	
+
 	public Abbonamenti ricercaAbbonamentoDaId(Long id) {
 		return em.find(Abbonamenti.class, id);
 	}
-	
-	public List<Abbonamenti> ricercaAbbonamentiPerData(LocalDate data){
-		return em.createQuery("SELECT p FROM Abbonamenti p WHERE p.dataemissione =:dataemissione", Abbonamenti.class)
-                .setParameter("dataemissione", data)
-                .getResultList();
+
+	public List<Abbonamenti> ricercaAbbonamentiPerData(LocalDate data) {
+		return em.createQuery("SELECT p FROM Abbonamenti p WHERE p.dataEmissione =:dataemissione", Abbonamenti.class)
+				.setParameter("dataemissione", data).getResultList();
 	}
 }
