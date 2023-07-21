@@ -119,6 +119,7 @@ public class App {
 				System.out.println("10: Recupera tratte di un mezzo");
 				System.out.println("11: Recupera biglietti di una determinata data");
 				System.out.println("12: Recupera abbonamenti di una determinata data");
+				System.out.println("13: Verifica Validità abbonamento inserendo l'ID utente");
 			}
 
 			scelta = scanner.nextInt();
@@ -509,6 +510,35 @@ public class App {
 					List<Abbonamenti> abbonamentiDaData = ab.ricercaAbbonamentiPerData(dataRicerca);
 					for (Abbonamenti abbonamento : abbonamentiDaData) {
 						System.out.println(abbonamento);
+					}
+				} else {
+					System.out.println("Non puoi accedere a questa funzione");
+				}
+				break;
+
+			case 13:
+				if (risposta.equals("admin")) {
+					System.out.print("Inserisci l'ID dell'utente: ");
+					long idUtente = Long.parseLong(scanner.next());
+					Utente utenteDaVerificare = sd.ricercaUtenteDaId(idUtente);
+					if (utenteDaVerificare == null) {
+						System.out.println("Utente non trovato");
+					} else {
+						Tessera tessera1 = utenteDaVerificare.getTessera();
+						if (tessera1 == null) {
+							System.out.println("L'utente con ID " + idUtente + " non ha una tessera");
+						} else if (tessera1.getDataScadenza().isBefore(LocalDate.now())) {
+							System.out.println("La tessera dell'utente con ID " + idUtente + " è scaduta");
+						} else {
+							Abbonamenti abbonamento = tessera1.getAbbonamento();
+							if (abbonamento == null) {
+								System.out.println("L'utente con ID " + idUtente + " non ha un abbonamento");
+							} else if (abbonamento.getDataScadenza().isBefore(LocalDate.now())) {
+								System.out.println("L'abbonamento dell'utente con ID " + idUtente + " è scaduto");
+							} else {
+								System.out.println("L'abbonamento dell'utente con ID " + idUtente + " è ancora valido");
+							}
+						}
 					}
 				} else {
 					System.out.println("Non puoi accedere a questa funzione");
