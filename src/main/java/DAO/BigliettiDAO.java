@@ -36,4 +36,14 @@ public class BigliettiDAO {
 	             .setParameter("dataemissione", data)
 	             .getResultList();
 	}
+	
+	public int getNumeroBigliettiPerData(LocalDate data) {
+	    List<Biglietti> bigliettiPerData = ricercaBigliettiPerData(data);
+	    return bigliettiPerData.size();
+	}
+
+
+	
+
+
 }
