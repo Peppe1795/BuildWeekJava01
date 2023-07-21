@@ -19,8 +19,10 @@ public class UtenteDAO {
 		em.persist(utente);
 
 		t.commit();
-
-		System.out.println("Elemento salvato correttamente");
-
+		
 	}
+	
+	public Utente ricercaUtenteDaId(Long id) {
+        return em.find(Utente.class, id);
+    }
 }
